@@ -29,19 +29,19 @@ export default function InitWallet() {
           <div className='flex flex-row items-start p-0 order-2'>
             <Button className='w-[350px] h-[72px]' icon={
               <div className='inline-flex'>
-                <div className='pt-1'><Image src={getToken('dot_alt').iconGray} alt='' height={20} width={20} /></div>
-                <div className='mx-2 pt-1'><Image src={getToken('eth_alt').iconGray} alt='' height={20} width={20} /></div>
-                <div className='pt-1'><Image src={getToken('cosmos_alt').iconGray} alt='' height={20} width={20} /></div>
+                <div className='pt-1'><Image src={getToken('dot_alt').iconGray as string} alt='' height={20} width={20} /></div>
+                <div className='mx-2 pt-1'><Image src={getToken('eth_alt').iconGray as string} alt='' height={20} width={20} /></div>
+                <div className='pt-1'><Image src={getToken('cosmos_alt').iconGray as string} alt='' height={20} width={20} /></div>
               </div>
             } variant='outline' onClick={nextStep}>Connect</Button>
           </div>
           {/* TODO: Component for Mini Stepper */}
           <div className='flex flex-row p-0 order-3 items-center justify-center'>
-            <Image src={getToken('dot_alt').iconEmpty} alt='' height={24} width={24} />
+            <Image src={getToken('dot_alt').iconEmpty as string} alt='' height={24} width={24} />
             <div className='w-24 pb-[2px]'><div className='absolute border-2 border-white/20 w-24'></div></div>
-            <Image src={getToken('eth_alt').iconEmpty} alt='' height={24} width={24} />
+            <Image src={getToken('eth_alt').iconEmpty as string} alt='' height={24} width={24} />
             <div className='w-24 pb-[2px]'><div className='absolute border-2 border-white/20 w-24'></div></div>
-            <Image src={getToken('cosmos_alt').iconEmpty} alt='' height={24} width={24} />
+            <Image src={getToken('cosmos_alt').iconEmpty as string} alt='' height={24} width={24} />
           </div>
         </>
     </Wallet>
@@ -64,9 +64,9 @@ export default function InitWallet() {
           <div className='flex flex-row p-0 order-3 items-center justify-center'>
             <Image src={getToken('dot_alt').icon} alt='' height={24} width={24} />
             <div className='w-24 pb-[2px]'><div className='absolute border-2 border-white/60 w-24'></div></div>
-            <Image src={getToken('eth_alt').iconEmpty} alt='' height={24} width={24} />
+            <Image src={getToken('eth_alt').iconEmpty as string} alt='' height={24} width={24} />
             <div className='w-24 pb-[2px]'><div className='absolute border-2 border-white/20 w-24'></div></div>
-            <Image src={getToken('cosmos_alt').iconEmpty} alt='' height={24} width={24} />
+            <Image src={getToken('cosmos_alt').iconEmpty as string} alt='' height={24} width={24} />
           </div>
         </>
     </Wallet>
@@ -91,7 +91,7 @@ export default function InitWallet() {
             <div className='w-24 pb-[2px]'><div className='absolute border-2 border-white/60 w-24'></div></div>
             <Image src={getToken('eth_alt').icon} alt='' height={24} width={24} />
             <div className='w-24 pb-[2px]'><div className='absolute border-2 border-white/60 w-24'></div></div>
-            <Image src={getToken('cosmos_alt').iconEmpty} alt='' height={24} width={24} />
+            <Image src={getToken('cosmos_alt').iconEmpty as string} alt='' height={24} width={24} />
           </div>
         </>
     </Wallet>

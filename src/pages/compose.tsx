@@ -1,13 +1,13 @@
-import { Disclosure } from '@headlessui/react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { FiChevronUp,FiPercent,FiPlus } from "react-icons/fi";
+import { FiPercent,FiPlus } from "react-icons/fi";
 
 import clsxm from '@/lib/clsxm';
 
 import { Button } from '@/components';
 import Layout from '@/components/layout/Layout';
 import { Dialog } from '@/components/Molecules/Dialog';
+import { Disclosure } from '@/components/Molecules/Disclosure';
 import { InputAsset } from '@/components/Molecules/InputAsset';
 import { Search } from '@/components/Molecules/Search';
 
@@ -65,7 +65,7 @@ export default function Compose() {
                 <div className='w-full h-32 mt-6'>
                   <h5 className='text-white/60 mb-5'>from</h5>
                   <div className='flex justify-between'>
-                    <InputAsset id='input-asset' className='w-11/12'>
+                    <InputAsset assetIcon={selectedAssetFrom !== '' ? selectedAssetFrom : undefined} id='input-asset' className='w-11/12'>
                       <>
                         {(selectedNetworkFrom !== '' && selectedAssetFrom !== '') &&
                           <Button className='h-10 px-4 mx-2' variant='secondary' onClick={() => ({})}><FiPercent width={18} height={18}/></Button>
@@ -91,14 +91,14 @@ export default function Compose() {
                 </div>
                 <div className={clsxm(
                     'w-full mt-28',
-                    disabled && 'opacity-40 cursor-not-allowed'
+                    disabled && 'cursor-not-allowed'
                   )}>
                   <div className='flex justify-between'>
                     <h5 className='text-white/60 mb-5'>Into</h5>
 
                   </div>
                   <div className='flex justify-between'>
-                    <InputAsset disabled={disabled} id='input-asset' className='w-11/12'>
+                    <InputAsset disabled={disabled} assetIcon={selectedAssetInto !== '' ? selectedAssetInto : undefined} id='input-asset' className='w-11/12'>
                     <>
                         {(selectedNetworkInto !== '' && selectedAssetInto !== '') &&
                           <Button disabled={disabled} className='h-10 px-4 mx-2' variant='secondary' onClick={() => ({})}><FiPercent width={18} height={18}/></Button>
@@ -119,33 +119,30 @@ export default function Compose() {
                         }
                       </>
                     </InputAsset> 
-                    <Button className='w-[72px] h-36' variant='outline'><FiPlus width={24} height={24}/></Button>     
+                    <Button disabled={disabled} className='w-[72px] h-36' variant='outline'><FiPlus width={24} height={24}/></Button>     
                   </div>
                 </div>
               </div>
             </div>
-
-      <div className=" pt-8 mx-auto rounded-3xl">
-        <Disclosure>
-          {({ open }) => (
-            <>
-              <Disclosure.Button className="flex w-full justify-between rounded-lg bg-purple-100 px-4 py-2 text-left text-sm font-medium text-purple-900 hover:bg-purple-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
-                <span>Transaction details</span>
-                <FiChevronUp
-                  className={`${
-                    open ? 'rotate-180 transform' : ''
-                  } h-5 w-5 text-purple-500`}
-                />
-              </Disclosure.Button>
-              <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
-                  Test
-              </Disclosure.Panel>
-            </>
-          )}
-        </Disclosure>
-      </div>
-
-
+            {/* TODO: Change with API */}
+            <Disclosure disabled={disabled} title='Transaction details'>
+              <div className='flex justify-between p'>
+                <span className='text-white/60'>Transaction fee</span>
+                <span>0.2 PICA</span>
+              </div>
+              <div className='flex justify-between p my-3'>
+                <span className='text-white/60'>Deadline</span>
+                <span>5 mins</span>
+              </div>
+              <div className='flex justify-between p my-3'>
+                <span className='text-white/60'>AMM</span>
+                <span>Uniswap, Sushiswap</span>
+              </div>
+              <div className='flex justify-between p'>
+                <span className='text-white/60'>Slippage</span>
+                <span>0.1%</span>
+              </div>
+            </Disclosure>
           </section>
         </main>
       </Layout>

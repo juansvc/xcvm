@@ -1,14 +1,14 @@
 import { Dialog as HeadlesDialog, Transition } from '@headlessui/react'
-import { Fragment } from 'react';
+import { FC, Fragment, ReactNode } from 'react';
 
 export interface DialogProps {
   title: string;
-  children: React.ReactNode;
+  children: ReactNode;
   onClose: (value: boolean) => void;
   show: boolean;
 }
 
-export const Dialog: React.FC<DialogProps> = ({
+export const Dialog: FC<DialogProps> = ({
   title,
   children,
   onClose,

@@ -15,7 +15,7 @@ const links = [
 
 export default function Header() {
   return (
-    <header className='sticky top-0z-50'>
+    <header className='sticky top-0z-50 select-none'>
       <div className='w-11/12 mx-auto flex h-32 items-center justify-between'>
         <Link href='/' passHref>
           <a><Image className='w-44 object-contain' alt='' src="/svg/xcvm.svg" height={26} width={70} /></a>

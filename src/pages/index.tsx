@@ -23,8 +23,8 @@ export default function HomePage() {
       <div className="absolute w-[100%] h-[100%] opacity-[0.46] blur-[20px] mix-blend-normal overflow-hidden">
         <video autoPlay={true} loop={true} muted={true} playsInline={true}
         className="bg-cover bg-[50% 50%] absolute m-auto w-[100%] h-[100%] right-[-100%] bottom-[-100%] top-[-100%] left-[-100%] object-cover z-[-100] inline-block align-baseline">
-          <source src="https://assets.website-files.com/62977215d4f6f22062a9d0a2/629a2a5e5162e97c9cf6361f_XCVM video final-transcode.mp4"/>
-            <source src="https://assets.website-files.com/62977215d4f6f22062a9d0a2/629a2a5e5162e97c9cf6361f_XCVM video final-transcode.webm"/>
+          <source src="/images/background-xcvm.mp4"/>
+            <source src="/images/background-xcvm.webm"/>
         </video>
       </div>
     </div>

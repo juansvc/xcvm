@@ -4,17 +4,14 @@
 
 @layer base {
   html{
-    background: linear-gradient(180deg, #290a28 0%, #500913 50%, #4e2105 100%);
-    background-position: center;
-    background-repeat: no-repeat;
+    background: linear-gradient(180deg, #290a28 0%, #500913 50%, #4e2105 100%) no-repeat center center fixed;
     background-size: cover;
   }
 
-  #__next, html, body{
-    height:100%;
-    margin:0;
+  html, body {
+    height: 100%;
   }
-
+  
   a {
     cursor: pointer;
   }

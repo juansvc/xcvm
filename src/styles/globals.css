@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html{
+    background: linear-gradient(180deg, #290a28 0%, #500913 50%, #4e2105 100%);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  #__next, html, body{
+    height:100%;
+    margin:0;
+  }
+
+  a {
+    cursor: pointer;
+  }
+
+  td, th {
+    @apply py-1 align-middle;
+  }
+
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+  /* #region  /**=========== Typography =========== */
+  @font-face {
+    font-family: 'Metropolis';
+    font-style: normal;
+    font-weight: 100 400 600 900;
+    src: url(/fonts/metropolis.woff) format('woff');
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Wavehaus';
+    font-style: normal;
+    font-weight: 100 400 600 900;
+    src: url(/fonts/wavehaus.woff2) format('woff2');
+    font-display: swap;
+  }
+
+  h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, body, .p, .small-body, .caption {
+    @apply text-white leading-[150%];
+  }
+
+  h1, .h1, h2, .h2, h3, .h3 {
+    @apply font-primary tracking-wide font-normal;
+  }
+
+  h4, .h4, h5, .h5, h6, .h6, body, .p, .small-body, .caption {
+    @apply font-secondary tracking-normal font-semibold;
+  }
+
+  h1,
+  .h1 {
+    @apply text-8xl;
+  }
+
+  h2,
+  .h2 {
+    @apply text-6xl;
+  }
+
+  h3,
+  .h3 {
+    @apply text-5xl;
+  }
+
+  h4,
+  .h4 {
+    @apply text-4xl;
+  }
+
+  h5,
+  .h5 {
+    @apply text-2xl;
+  }
+
+  h6,
+  .h6 {
+    @apply text-xl;
+  }
+
+  body,
+  .p {
+    @apply text-base;
+  }
+
+  .small-body {
+    @apply text-sm;
+  }
+
+  .caption {
+    @apply text-xs;
+  }
+  /* #endregion  /**======== Typography =========== */
+
+  .layout {
+    /* 1100px */
+    max-width: 68.75rem;
+    @apply mx-auto w-11/12;
+  }
+
+}

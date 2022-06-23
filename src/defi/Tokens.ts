@@ -13,7 +13,7 @@ export const TOKENS: { [key in TokenId]: Token } = {
     id: 'eth',
     icon: '/icons/tokens/ethereum.svg',
     symbol: 'ETH',
-    name: "ETH",
+    name: "wETH",
   },
   usdc: {
     id: 'usdc',

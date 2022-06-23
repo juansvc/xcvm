@@ -26,9 +26,6 @@ const assets = [
   { id: 1, label: 'pica'},
   { id: 2, label: 'eth'},
   { id: 3, label: 'usdc'},
-  { id: 4, label: 'ksm' },
-  { id: 5, label: 'dot'},
-  { id: 6, label: 'cosmos'},
 ];
 
 export default function Compose() {
@@ -127,7 +124,8 @@ export default function Compose() {
                           }
                         </>
                       </InputAsset> 
-                      <Button className='w-[72px] h-36' variant='outline'><FiPlus width={24} height={24}/></Button>     
+                      {/* Disabled for DEMO */}
+                      <Button disabled={true} className='w-[72px] h-36' variant='outline'><FiPlus width={24} height={24}/></Button>     
                     </div>
                   </div>
                   <div className={clsxm(
@@ -217,7 +215,7 @@ export default function Compose() {
           {assets.map(({ id, label }) => (
             <Button 
               key={id} 
-              className={`w-[424px] h-24 ${(id === 2 || id === 5) && 'mx-6 my-4'} justify-between relative inline-flex pl-8`} 
+              className={`w-[424px] h-24 ${(id === 2) && 'mx-6 my-4'} justify-between relative inline-flex pl-8`} 
               variant='outline' 
               icon={<div className='pt-1'><Image src={getToken(label).icon} width={32} height={32} alt='' /></div>}
               onClick={() => { setIsOpenAsset(false); selected === 'from' ? setSelectedAssetFrom(label) :  selected === 'into' ? setSelectedAssetInto(label) : undefined}}

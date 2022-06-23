@@ -24,7 +24,7 @@ export const Layout: FC<LayoutProps> = ({
   return (
     <>
       <Header/>
-      <div className='static text-right -mt-24 mr-16'>
+      <div className='static float-right w-fit -mt-24 mr-16'>
         {/* TODO: Provide createContetx, useContex to Wallet Component */}
         {
           connected ?
@@ -34,7 +34,7 @@ export const Layout: FC<LayoutProps> = ({
                   <Popover.Button className='inline-flex items-center w-[64px] h-[64px] justify-center rounded-3xl py-6 border-gradient-r-gradient-light-transparent gradient-border-2 hover:border-gradient-r-gradient-light-colored'>
                     <FaWallet className='fill-white' height={20} width={20} />
                   </Popover.Button>
-                  <Popover.Panel as="div" className="absolute left-1/2 mt-3 w-screen max-w-sm translate-x-1/2 px-4 sm:px-0 lg:max-w-3xl">
+                  <Popover.Panel as="div" className="absolute left-1/2 mt-3 w-screen max-w-sm -translate-x-1/2 px-4 sm:px-0 lg:max-w-3xl">
                     <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 ">
                       <>
                         <Wallet 

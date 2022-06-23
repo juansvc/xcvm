@@ -7,6 +7,7 @@ export interface WalletProps {
   children: JSX.Element;
   image: JSX.Element;
   back?: () => void;
+  className?: string;
 }
 
 export const Wallet: FC<WalletProps> = ({
@@ -14,11 +15,12 @@ export const Wallet: FC<WalletProps> = ({
   subtitle,
   children, 
   image,
-  back
+  back,
+  className
 }) => {
 
   return (
-    <div className='w-[480px] h-[700px] bg-white/5 rounded-3xl shadow backdrop-blur flex items-center justify-center'>
+    <div className={`w-[480px] h-[700px] bg-white/5 rounded-3xl shadow backdrop-blur flex items-center justify-center ${className}`}>
       <>
         {back ? 
           <FaChevronLeft className='absolute top-12 left-14 hover:cursor-pointer w-5 h-5' onClick={back} />

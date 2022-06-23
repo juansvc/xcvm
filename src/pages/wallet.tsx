@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 import { Button } from '@/components';
-import Layout from '@/components/layout/Layout';
+import { Layout } from '@/components/layout/Layout';
 import { Wallet } from '@/components/Organisms/Wallet';
 
 import { getToken } from "@/defi/Tokens";

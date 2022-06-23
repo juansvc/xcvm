@@ -25,7 +25,7 @@ export const InputAsset: FC<InputAssetProps> = (
 
   return (
     <div className={clsxm(
-      'border rounded-3xl h-36 px-3 py-2 relative',
+      'border rounded-3xl h-36 px-3 py-2',
       className,
       disabled ? 'border-gray-300/30 text-white/30' :
       'border-gray-300 text-white/60'
@@ -33,25 +33,29 @@ export const InputAsset: FC<InputAssetProps> = (
       <label htmlFor="name" className="block text-sm mt-5 ml-6">
         Amount
       </label>
-      {assetIcon &&
-        <div className='inline-flex ml-6'><Image src={getToken(assetIcon).icon} width={20} height={20} alt='' /></div>
-      }
-      <div className='inline-flex flex-col'>
-        <Input
-          type="number"
-          id="input-asset"
-          className={`block w-full border-0 bg-transparent p-0 focus:ring-0 text-2xl mt-5 ml-6 
-          ${disabled ? 'placeholder-white/30' : 'placeholder-white/60'}`}
-          placeholder="0.0"
-          onChange={e => setValue(e.target.value)}
-          disabled={disabled}
-        />
-        <label htmlFor="name" className="block text-sm mt-1 ml-6">
-          ${value === '' ? '0.0' : value}
-        </label>
-      </div>
-      <div className='absolute bottom-5 right-5'>
-        {children}
+      <div className='flex justify-between'>
+        <div className='flex'>
+          {assetIcon &&
+            <div className='inline-flex ml-6 mb-2'><Image src={getToken(assetIcon).icon} width={20} height={20} alt='' /></div>
+          }
+          <div className='inline-flex flex-col'>
+            <Input
+              type="number"
+              id="input-asset"
+              className={`block w-full border-0 bg-transparent p-0 focus:ring-0 text-2xl mt-5 ml-6 
+              ${disabled ? 'placeholder-white/30' : 'placeholder-white/60'}`}
+              placeholder="0.0"
+              onChange={e => setValue(e.target.value)}
+              disabled={disabled}
+            />
+            <label htmlFor="name" className="block text-sm mt-1 ml-6">
+              ${value === '' ? '0.0' : value}
+            </label>
+          </div>
+        </div>
+        <div className='flex place-items-end pb-1'>
+          {children}
+        </div>
       </div>
     </div> 
   )

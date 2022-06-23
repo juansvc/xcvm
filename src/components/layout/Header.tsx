@@ -1,10 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaWallet } from "react-icons/fa";
 
 import clsxm from '@/lib/clsxm';
 
-import { Button } from '@/components/Atom/Button';
 
 const links = [
   { href: '/', label: 'Dashboard' },
@@ -14,6 +12,7 @@ const links = [
 ];
 
 export default function Header() {
+  
   return (
     <header className='sticky top-0z-50 select-none'>
       <div className='w-11/12 mx-auto flex h-32 items-center justify-between'>
@@ -39,9 +38,7 @@ export default function Header() {
             ))}
           </ul>
         </nav>
-        <Link href='/wallet' passHref>
-          <a><Button className=' py-0 w-[64px] h-[64px] rounded-[24px]' variant='outline' icon={<FaWallet className='fill-white' height={20} width={20} />}/></a>
-        </Link>
+        <div></div>
       </div>
     </header>
   );

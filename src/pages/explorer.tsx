@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { GoLinkExternal } from "react-icons/go";
 
 import { Tabs } from '@/components';
-import Layout from '@/components/layout/Layout';
+import { Layout } from '@/components/layout/Layout';
 import { Search } from '@/components/Molecules/Search';
 
 import { getNetwork } from '@/defi/Networks';

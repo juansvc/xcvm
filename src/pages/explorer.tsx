@@ -11,6 +11,58 @@ import { getNetwork } from '@/defi/Networks';
 import { getToken } from '@/defi/Tokens';
 
 export default function Explorer() {
+  const [categories] = useState({
+    
+  //#region  //*=========== DUMMY REPLACE API ===========
+  'Global': [
+    {
+      id: 1,
+      owner: '0xslenderman',
+      action: 'Compose',
+      chain: 'picasso',
+      from: 'usdc',
+      into: 'eth',
+      amount: 700,
+      time: '1 day'
+    },
+    {
+      id: 2,
+      owner: "juan.vivanco",
+      action: 'Compose',
+      chain: 'picasso',
+      from: 'eth',
+      into: 'pica',
+      amount: 300,
+      time: '1 day'
+    },
+  ],
+  'My Transactions': [
+    {
+      id: 1,
+      owner: '0xbrainjar',
+      action: 'Compose',
+      chain: 'cosmos',
+      from: 'eth',
+      into: 'pica',
+      amount: 400,
+      time: '1 day'
+    },
+    {
+      id: 2,
+      owner: 'Cor',
+      action: 'Compose',
+      chain: 'arbitrum',
+      from: 'usdc',
+      into: 'eth',
+      amount: 700,
+      time: '1 day'
+    },
+  ],
+
+  //#endregion  //*=========== DUMMY REPLACE API ===========
+  
+})
+
   return (
     <Layout>
       <main>
@@ -21,69 +73,7 @@ export default function Explorer() {
             </h3>
           </div>
           <div>
-            <ExplorerContainer/>
-          </div>
-        </section>
-      </main>
-    </Layout>
-  );
-}
-
-
-export function ExplorerContainer() {
-  const [categories] = useState({
-    
-    //#region  //*=========== DUMMY REPLACE API ===========
-    'Global': [
-      {
-        id: 1,
-        owner: '0xslenderman',
-        action: 'Compose',
-        chain: 'picasso',
-        from: 'usdc',
-        into: 'eth',
-        amount: 700,
-        time: '1 day'
-      },
-      {
-        id: 2,
-        owner: "juan.vivanco",
-        action: 'Compose',
-        chain: 'picasso',
-        from: 'eth',
-        into: 'pica',
-        amount: 300,
-        time: '1 day'
-      },
-    ],
-    'My Transactions': [
-      {
-        id: 1,
-        owner: '0xbrainjar',
-        action: 'Compose',
-        chain: 'cosmos',
-        from: 'eth',
-        into: 'pica',
-        amount: 400,
-        time: '1 day'
-      },
-      {
-        id: 2,
-        owner: 'Cor',
-        action: 'Compose',
-        chain: 'arbitrum',
-        from: 'usdc',
-        into: 'eth',
-        amount: 700,
-        time: '1 day'
-      },
-    ],
-
-    //#endregion  //*=========== DUMMY REPLACE API ===========
-  })
-
-  return (
-    <Tabs categories={categories}>
+          <Tabs categories={categories}>
       {Object.values(categories).map((posts, idx) => (
             <Tab.Panel
               key={idx}
@@ -139,5 +129,9 @@ export function ExplorerContainer() {
             </Tab.Panel>
           ))}
     </Tabs>
-  )
+          </div>
+        </section>
+      </main>
+    </Layout>
+  );
 }

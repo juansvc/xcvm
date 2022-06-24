@@ -12,6 +12,7 @@ enum ButtonVariant {
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: keyof typeof ButtonVariant;
   icon?: JSX.Element;
+  active?: boolean;
 }
 
 export const Button: FC<ButtonProps> = (
@@ -21,6 +22,7 @@ export const Button: FC<ButtonProps> = (
     disabled: buttonDisabled,
     variant = 'primary',
     icon,
+    active = false,
     ...rest
   }
 ) => {
@@ -39,6 +41,9 @@ export const Button: FC<ButtonProps> = (
             'hover:from-purple-dark hover:to-purple-dark',
             'active:from-gradient-light-50 active:via-gradient-light-100 active:to-gradient-light-200',
             'disabled:opacity-20 disabled:from-purple-dark disabled:to-purple-dark',
+            active && [
+              'from-gradient-light-50 via-gradient-light-100 to-gradient-light-200'
+            ],
           ],
           variant === 'outline' && [
             // 'bg-[linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(to right, #8a2387, #a21e81, #b71d7a, #ca2170, #d92c66, #e2355d, #e93f54, #ef4b4b, #f25442, #f35d38, #f3672d, #f27121)] bg-origin-border shadow-[2px 1000px 1px #fff inset] text-white',
@@ -46,12 +51,18 @@ export const Button: FC<ButtonProps> = (
             'hover:border-gradient-r-gradient-light-colored',
             'active:border-gradient-r-gradient-light-transparent',
             'disabled:opacity-20 disabled:border-gradient-r-gradient-light-transparent',
+            active && [
+              'border-gradient-r-gradient-light-transparent'
+            ],
           ],
           variant === 'secondary' && [
             'text-white border-white/20 border-2',
             'hover:border-gradient-r-gradient-light-colored',
             'active:border-gradient-r-gradient-light-colored',
             'disabled:opacity-20 disabled:border-gradient-r-gradient-light-transparent',
+            active && [
+              'border-gradient-r-gradient-light-colored'
+            ],
           ],
           variant === 'text' && [
             'text-purple',
@@ -59,6 +70,9 @@ export const Button: FC<ButtonProps> = (
             'hover:text-[#FF33AD]',
             'active:text-purple',
             'disabled:opacity-20',
+            active && [
+              'text-purple'
+            ],
           ],
         ],
         //#endregion  //*======== Variants ===========

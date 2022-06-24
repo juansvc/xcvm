@@ -8,6 +8,11 @@ export const AMMs: { [key in AmmId]: AMM } = {
     icon: '/icons/amms/uniswap.svg',
     label: 'Uniswap',
   },
+  sushiswap: {
+    id: 'sushiswap',
+    icon: '/icons/amms/sushiswap.svg',
+    label: 'Sushiswap',
+  },
   pablo: {
     id: 'pablo',
     icon: '/icons/amms/pablo.svg',

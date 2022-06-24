@@ -1,18 +1,21 @@
+import { Tab } from '@headlessui/react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { FiPercent,FiPlus } from "react-icons/fi";
+import { AiTwotoneSetting } from "react-icons/ai";
+import { FiCheck, FiPercent,FiPlus } from "react-icons/fi";
 import { GoLinkExternal } from 'react-icons/go';
 import { RiFileCopyLine } from "react-icons/ri";
 
 import clsxm from '@/lib/clsxm';
 
-import { Button } from '@/components';
+import { Button, Input, Tabs } from '@/components';
 import { Layout } from '@/components/layout/Layout';
 import { Dialog } from '@/components/Molecules/Dialog';
 import { Disclosure } from '@/components/Molecules/Disclosure';
 import { InputAsset } from '@/components/Molecules/InputAsset';
 import { Search } from '@/components/Molecules/Search';
 
+import { getAMM } from '@/defi/AMMs';
 import { getNetwork } from '@/defi/Networks';
 import { getToken } from '@/defi/Tokens';
 
@@ -28,9 +31,16 @@ const assets = [
   { id: 3, label: 'usdc'},
 ];
 
+interface valueType {
+  1?: string;
+  2?: string;
+}
+
 export default function Compose() {
   const [isOpenNetwork, setIsOpenNetwork] = useState(false)
   const [isOpenAsset, setIsOpenAsset] = useState(false)
+  const [isOpenAssetSettings, setIsOpenAssetSettings] = useState(false)
+  const [isOpenTransactionSettings, setIsOpenTransactionSettings] = useState(false)
   const [stepper, setStepper] = useState(false)
   const [disabled, setDisabled] = useState(true)
   const [enableExecute, setEnableExecute] = useState(true)
@@ -39,6 +49,28 @@ export default function Compose() {
   const [selectedNetworkInto, setSelectedNetworkInto] = useState('')
   const [selectedAssetInto, setSelectedAssetInto] = useState('')
   const [selected, setSelected] = useState('')
+  const [selectedAMM, setSelectedAMM] = useState<valueType>({
+    1: '',
+    2: '',
+  });
+  const [valueAddress, setValueAddress] = useState<valueType>({
+    1: '',
+    2: '',
+  });
+
+  const [categories] = useState({
+    'AMMs': [
+      {
+        id: 1,
+        label: 'uniswap',
+      },
+      {
+        id: 2,
+        label: 'sushiswap',
+      },
+    ],
+    'Custom destination': [],
+  })
 
   useEffect(() => {
     if (selectedNetworkFrom !== '' && selectedAssetFrom !== '') {
@@ -101,7 +133,7 @@ export default function Compose() {
                 </div>
                 <div className='mt-10'>
                   <div className='w-full h-32 mt-6'>
-                    <h5 className='text-white/60 mb-5'>from</h5>
+                    <h5 className='text-white/60 mb-8'>from</h5>
                     <div className='flex justify-between'>
                       <InputAsset assetIcon={selectedAssetFrom !== '' ? selectedAssetFrom : undefined} id='input-asset' className='w-11/12'>
                         <>
@@ -129,12 +161,16 @@ export default function Compose() {
                     </div>
                   </div>
                   <div className={clsxm(
-                      'w-full mt-28',
+                      'w-full mt-32',
                       disabled && 'cursor-not-allowed'
                     )}>
                     <div className='flex justify-between'>
-                      <h5 className='text-white/60 mb-5'>Into</h5>
-  
+                      <div className='flex'>
+                        <h5 className='text-white/60 mb-8'>Into</h5>
+                      </div>
+                      <div className='flex -mt-3'>
+                        <Button disabled={disabled} className='w-14 h-14 p-0' variant='secondary' onClick={() => {setIsOpenAssetSettings(true)}}><AiTwotoneSetting width={24} height={24}/></Button>     
+                      </div>
                     </div>
                     <div className='flex justify-between'>
                       <InputAsset disabled={disabled} assetIcon={selectedAssetInto !== '' ? selectedAssetInto : undefined} id='input-asset' className='w-11/12'>
@@ -169,13 +205,27 @@ export default function Compose() {
                   <span className='text-white/60'>Transaction fee</span>
                   <span>0.2 PICA</span>
                 </div>
+                {valueAddress[1] !== '' && valueAddress[1] !== undefined &&
+                  <div className='flex justify-between p my-3'>
+                    <span className='text-white/60'>Custom address 1</span>
+                    <span>{valueAddress[1]}</span>
+                  </div>
+                }
+                {valueAddress[2] !== '' && valueAddress[2] !== undefined &&
+                  <div className='flex justify-between p my-3'>
+                    <span className='text-white/60'>Custom address 2</span>
+                    <span>{valueAddress[2]}</span>
+                  </div>
+                }
                 <div className='flex justify-between p my-3'>
                   <span className='text-white/60'>Deadline</span>
                   <span>5 mins</span>
                 </div>
                 <div className='flex justify-between p my-3'>
                   <span className='text-white/60'>AMM</span>
-                  <span>Uniswap, Sushiswap</span>
+                  <span>{selectedAMM[1]}
+                  {(selectedAMM[2] !== '' && selectedAMM[2] !== undefined) ? `, ${selectedAMM[2]}` : undefined}
+                  </span>
                 </div>
                 <div className='flex justify-between p'>
                   <span className='text-white/60'>Slippage</span>
@@ -228,6 +278,54 @@ export default function Compose() {
             </Button>
           ))}
         </div>
+      </Dialog>
+
+      <Dialog show={isOpenAssetSettings} onClose={() => setIsOpenAssetSettings(false)} title='Asset Settings'>
+        <Tabs categories={categories}>
+          {Object.values(categories).map((posts, idx) => (
+                <Tab.Panel
+                  key={idx}
+                  className='pt-16'
+                >
+                  {
+                    idx === 0 ?
+                      <>
+                        <form>   
+                          <Search/>
+                        </form>
+                        <div className='flex justify-between'>
+                          {
+                          posts.map((post) => (
+                            <Button 
+                              key={post.id}
+                              active={post.label === selectedAMM[1]}
+                              className={clsxm(
+                                'w-[49%]',
+                              )}
+                              variant='secondary' 
+                              onClick={() => {setSelectedAMM({1: post.label})}}
+                              icon={
+                                // @ts-expect-error post.label for uniswap/sushiswap
+                                <Image src={getAMM(post.label).icon} width={32} height={32} alt=''/>
+                              }
+                            >
+                                <h6>{
+                                  // @ts-expect-error post.label for uniswap/sushiswap
+                                  getAMM(post.label).label
+                                }</h6>
+                            </Button>
+                          ))}
+                        </div>
+                      </>
+                    :
+                      <div className='flex justify-between'>
+                        <Input id="custom-address" value={valueAddress[1]} onChange={e => setValueAddress({1: e.target.value})} className='w-full h-32 mr-8 text-left pl-8 placeholder:text-white/40' autoFocus={true} type="text" placeholder="Destination address"/>
+                        <Button disabled={valueAddress[1] === ''} onClick={() => setIsOpenAssetSettings(false)} className='w-[72px] h-32' variant='outline'><FiCheck width={24} height={24}/></Button>  
+                      </div>   
+                  }
+                </Tab.Panel>
+              ))}
+        </Tabs>
       </Dialog>
   </>
   );

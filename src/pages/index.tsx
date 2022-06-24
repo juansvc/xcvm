@@ -4,6 +4,8 @@ import Link from "next/link";
 import { Button } from "@/components/Atom";
 
 export default function HomePage() {
+
+
   return (
     <div className="flex w-[100vw] h-[100vh] px-[8%] justify-center items-center box">
       <div className="absolute left-0 top-0 right-0 bottom-auto z-[1] flex w-[100%] h-[120px] p-[8%] justify-between items-center">

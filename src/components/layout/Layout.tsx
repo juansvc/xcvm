@@ -1,7 +1,7 @@
 import { Popover } from '@headlessui/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useEffect, useState } from 'react';
 import { FaWallet } from 'react-icons/fa';
 
 import { Button } from '@/components/Atom/Button';
@@ -12,14 +12,24 @@ import { Wallet } from '@/components/Organisms/Wallet';
 import { getToken } from '@/defi/Tokens';
 
 export interface LayoutProps {
-  connected?: boolean;
   children: ReactNode;
 }
 
 export const Layout: FC<LayoutProps> = ({
-  connected = true,
   children,
 }) => {
+
+  const [isOpen, setOpen] = useState(
+    JSON.parse(sessionStorage.getItem('is-open') || '{}') || false
+  );
+
+  const handleToggle = () => {
+    setOpen(!isOpen);
+  };
+
+  useEffect(() => {
+    sessionStorage.setItem('is-open', JSON.stringify(isOpen));
+  }, [isOpen]);
   
   return (
     <>
@@ -27,7 +37,7 @@ export const Layout: FC<LayoutProps> = ({
       <div className='static float-right w-fit -mt-24 mr-16'>
         {/* TODO: Provide createContetx, useContex to Wallet Component */}
         {
-          connected ?
+          isOpen === true ?
             <Popover className="relative z-10">
               {({ open }) => (
                 <>
@@ -56,7 +66,7 @@ export const Layout: FC<LayoutProps> = ({
                             } variant='outline'>Cosmos</Button>
                           </div>
                           <div className='flex flex-row p-0 order-3 items-center justify-center'>
-                            Disconect all
+                            <a onClick={handleToggle}>Disconect all</a>
                           </div>
                         </>
                         </Wallet>
@@ -67,9 +77,11 @@ export const Layout: FC<LayoutProps> = ({
               )}
             </Popover>
           :
-            <Link href='/wallet' passHref>
-              <a><Button className='py-0 w-[64px] h-[64px] rounded-[24px]' variant='outline' icon={<FaWallet className='fill-white' height={20} width={20} />}/></a>
-            </Link>
+            <div className='relative z-10'>
+              <Link href='/wallet' passHref>
+                <a><Button className='py-0 w-[64px] h-[64px] rounded-[24px]' variant='outline' icon={<FaWallet className='fill-white' height={20} width={20} />}/></a>
+              </Link>
+            </div>
         }
       </div>
       {children}

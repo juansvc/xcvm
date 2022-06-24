@@ -1,8 +1,8 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 
 import { Button } from '@/components';
-import { Layout } from '@/components/layout/Layout';
 import { Wallet } from '@/components/Organisms/Wallet';
 
 import { getToken } from "@/defi/Tokens";
@@ -18,6 +18,11 @@ export default function InitWallet() {
   const nextStep = () => {
     setStep(step + 1);
   }
+
+  const handleToggle = () => {
+    sessionStorage.setItem('is-open', JSON.stringify(true));
+
+  };
 
   const Connect = () => (
     <Wallet 
@@ -81,9 +86,11 @@ export default function InitWallet() {
       >
         <>
           <div className='flex flex-row items-start p-0 order-2'>
-            <Button className='w-[350px] h-[72px]' icon={
-              <div className='pt-1'><Image src='/icons/metamask.svg' alt='' height={20} width={20} /></div>
-            } variant='outline'>Metamask</Button>
+            <Link href='/compose' passHref>
+              <Button className='w-[350px] h-[72px]' icon={
+                <div className='pt-1'><Image src='/icons/metamask.svg' alt='' height={20} width={20} /></div>
+              } variant='outline' onClick={handleToggle}>Metamask</Button>
+            </Link>
           </div>
           {/* TODO: Component for Mini Stepper */}
           <div className='flex flex-row p-0 order-3 items-center justify-center'>
@@ -98,7 +105,7 @@ export default function InitWallet() {
   );
 
   return (
-    <Layout>
+    
       <main>
         <section className='flex flex-row justify-center items-center pt-16 gap-3'>
           {
@@ -110,6 +117,6 @@ export default function InitWallet() {
           }
         </section>
       </main>
-    </Layout>
+      
   );
 }

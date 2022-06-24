@@ -18,7 +18,7 @@ export const DEFI_CONFIG = {
     'cosmos',
   ] as const,
 
-  ammIds: ['uniswap', 'pablo', 'quickswap'] as const,
+  ammIds: ['uniswap', 'sushiswap', 'pablo', 'quickswap'] as const,
 
   composeDeadline: [
     {

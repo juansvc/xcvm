@@ -1,7 +1,7 @@
 import { Popover } from '@headlessui/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FC, ReactNode, useEffect, useState } from 'react';
+import { FC, ReactNode } from 'react';
 import { FaWallet } from 'react-icons/fa';
 
 import { Button } from '@/components/Atom/Button';
@@ -10,6 +10,7 @@ import Header from '@/components/layout/Header';
 import { Wallet } from '@/components/Organisms/Wallet';
 
 import { getToken } from '@/defi/Tokens';
+import { useConnectStorage } from '@/storage/useConnectStorage';
 
 export interface LayoutProps {
   children: ReactNode;
@@ -19,25 +20,14 @@ export const Layout: FC<LayoutProps> = ({
   children,
 }) => {
 
-  const [isOpen, setOpen] = useState(
-    JSON.parse(sessionStorage.getItem('is-open') || '{}') || false
-  );
-
-  const handleToggle = () => {
-    setOpen(!isOpen);
-  };
-
-  useEffect(() => {
-    sessionStorage.setItem('is-open', JSON.stringify(isOpen));
-  }, [isOpen]);
+  const [connected, setConnected] = useConnectStorage(true, 'connected');
   
   return (
     <>
       <Header/>
       <div className='static float-right w-fit -mt-24 mr-16'>
-        {/* TODO: Provide createContetx, useContex to Wallet Component */}
         {
-          isOpen === true ?
+          connected ?
             <Popover className="relative z-10">
               {({ open }) => (
                 <>
@@ -66,7 +56,7 @@ export const Layout: FC<LayoutProps> = ({
                             } variant='outline'>Cosmos</Button>
                           </div>
                           <div className='flex flex-row p-0 order-3 items-center justify-center'>
-                            <a onClick={handleToggle}>Disconect all</a>
+                            <a onClick={() => setConnected(false)}>Disconect all</a>
                           </div>
                         </>
                         </Wallet>

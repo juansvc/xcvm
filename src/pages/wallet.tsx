@@ -6,6 +6,7 @@ import { Button } from '@/components';
 import { Wallet } from '@/components/Organisms/Wallet';
 
 import { getToken } from "@/defi/Tokens";
+import { useConnectStorage } from '@/storage/useConnectStorage';
 
 
 export default function InitWallet() {
@@ -19,10 +20,7 @@ export default function InitWallet() {
     setStep(step + 1);
   }
 
-  const handleToggle = () => {
-    sessionStorage.setItem('is-open', JSON.stringify(true));
-
-  };
+  const [connected, setConnected] = useConnectStorage(false, 'connected');
 
   const Connect = () => (
     <Wallet 
@@ -89,7 +87,7 @@ export default function InitWallet() {
             <Link href='/compose' passHref>
               <Button className='w-[350px] h-[72px]' icon={
                 <div className='pt-1'><Image src='/icons/metamask.svg' alt='' height={20} width={20} /></div>
-              } variant='outline' onClick={handleToggle}>Metamask</Button>
+              } variant='outline' onClick={setConnected(true)}>Metamask</Button>
             </Link>
           </div>
           {/* TODO: Component for Mini Stepper */}

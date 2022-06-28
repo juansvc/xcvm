@@ -22,10 +22,6 @@
       "@/*": ["./src/*"],
       "~/*": ["./public/*"],
       "@/types/*": ["@src/*"],
-      "@/types/api/augment": ["@src/interfaces/augment-api.ts"],
-      "@/types/types/augment": ["@src/interfaces/augment-types.ts"],
-      "@polkadot/api/augment": ["@src/interfaces/augment-api.ts"],
-      "@polkadot/types/augment": ["@src/augment-types.ts"]
     },
     "incremental": true
   },

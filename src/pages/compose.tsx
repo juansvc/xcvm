@@ -2,7 +2,6 @@ import { Web3Provider } from '@ethersproject/providers'
 import { Tab } from '@headlessui/react';
 import { Web3ReactProvider } from '@web3-react/core'
 import { useWeb3React } from '@web3-react/core'
-import BN from 'bn.js';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { AiTwotoneSetting } from "react-icons/ai";
@@ -23,10 +22,8 @@ import { Search } from '@/components/Molecules/Search';
 import { getAMM } from '@/defi/AMMs';
 import { getNetwork } from '@/defi/Networks';
 import { getToken } from '@/defi/Tokens';
-import { getNewConnection } from '@/pages/api/connectionHelper';
 
 import { network } from './api/ethereumConnector';
-import { sendAndWaitForSuccess } from './api/polkadot';
 
 const networks = [
   { id: 1, label: 'picasso'},
@@ -142,35 +139,6 @@ export default function Compose() {
       },
     ],
   })
-
-  //polkadot
-  const test = async () => {
-
-  
-    const { newClient, newKeyring } = await getNewConnection();
-    const api = newClient;  
-    const prom = await newClient.rpc.assets.balanceOf('1', '5yNZjX24n2eg7W6EVamaTXNQbWCwchhThEaSWB7V3GRjtHeL');
-    console.log("Prom Result",prom.toString());
-
-    const walletAlice = newKeyring.addFromUri("//Alice");
-    const walletBob = newKeyring.addFromUri("//Bob");
-
-    const paraAsset = 1;
-    const paraDest = walletBob.publicKey;
-    const paraAmount = api.createType('u128', new BN("100000000000"));
-    const paraKeepAlive = true;
-
-    const {data:[result]} = await sendAndWaitForSuccess(
-      api,
-      walletAlice,
-      api.events.balances.Deposit.is,
-      api.tx.assets.transfer(paraAsset, paraDest, paraAmount, paraKeepAlive)
-    );
-      console.log("transaction result", result.toString())    
-  }
-
-  // test();
-
 
   //eth
 

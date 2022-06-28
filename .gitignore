@@ -40,3 +40,8 @@ yarn-error.log*
 robots.txt
 sitemap.xml
 sitemap-*.xml
+
+# interfaces
+.js
+.d.ts
+.js.map

@@ -5,6 +5,12 @@ import { AiTwotoneSetting } from "react-icons/ai";
 import { FiCheck, FiPercent,FiPlus } from "react-icons/fi";
 import { GoLinkExternal } from 'react-icons/go';
 import { RiFileCopyLine } from "react-icons/ri";
+import { Web3ReactProvider } from '@web3-react/core'
+import { Web3Provider } from '@ethersproject/providers'
+import { useWeb3React } from '@web3-react/core'
+import { NetworkConnector } from '@web3-react/network-connector'
+import useSWR from 'swr'
+import { formatEther } from '@ethersproject/units'
 
 import clsxm from '@/lib/clsxm';
 
@@ -18,6 +24,9 @@ import { Search } from '@/components/Molecules/Search';
 import { getAMM } from '@/defi/AMMs';
 import { getNetwork } from '@/defi/Networks';
 import { getToken } from '@/defi/Tokens';
+import { getNewConnection } from '@/pages/api/connectionHelper';
+import { sendAndWaitForSuccess } from './api/polkadot';
+import BN from 'bn.js';
 
 const networks = [
   { id: 1, label: 'picasso'},
@@ -35,6 +44,60 @@ interface valueType {
   1?: string;
   2?: string;
 }
+
+//#region  //*=========== fetch balance eth ===========
+export const ethereumNetwork = new NetworkConnector({
+  urls: { 1: 'http://localhost:8546' },
+  defaultChainId: 1
+})
+
+function getLibrary(provider: any): Web3Provider {
+  const library = new Web3Provider(provider)
+  library.pollingInterval = 12000
+  return library
+}
+
+const fetcher = (library) => (...args) => {
+  const [method, ...params] = args
+  return library[method](...params)
+}
+
+export const Balance = () => {
+  const { account, library } = useWeb3React<Web3Provider>()
+  const { data: balance, mutate } = useSWR(['getBalance', account, 'latest'], {
+    fetcher: fetcher(library),
+  })
+
+  useEffect(() => {
+    library.on('block', () => {
+      mutate(undefined, true)
+    })
+
+    return () => {
+      library.removeAllListeners('block')
+    }
+  }, [])
+
+  if (!balance) {
+    return <div>Balance </div>
+  }
+  return <div>Balance: {parseFloat(formatEther(balance)).toPrecision(4)}</div>
+}
+
+export const Connect = () => {
+  const { chainId, account, activate, active } = useWeb3React<Web3Provider>()
+  activate(ethereumNetwork)
+
+  return (
+    <div>
+      <div>ChainId: {chainId}</div>
+      <div>Account: {account}</div>
+      {active && <Balance />}
+    </div>
+  )
+}
+
+//#endregion  //*=========== DUMMY REPLACE API ===========
 
 export default function Compose() {
   const [isOpenNetwork, setIsOpenNetwork] = useState(false)
@@ -113,6 +176,37 @@ export default function Compose() {
     ],
   })
 
+  //polkadot
+  const test = async () => {
+
+  
+    const { newClient, newKeyring } = await getNewConnection();
+    const api = newClient;  
+    const prom = await newClient.rpc.assets.balanceOf('1', '5yNZjX24n2eg7W6EVamaTXNQbWCwchhThEaSWB7V3GRjtHeL');
+    console.log("Prom Result",prom.toString());
+
+    const walletAlice = newKeyring.addFromUri("//Alice");
+    const walletBob = newKeyring.addFromUri("//Bob");
+
+    const paraAsset = 1;
+    const paraDest = walletBob.publicKey;
+    const paraAmount = api.createType('u128', new BN("100000000000"));
+    const paraKeepAlive = true;
+
+    const {data:[result]} = await sendAndWaitForSuccess(
+      api,
+      walletAlice,
+      api.events.balances.Deposit.is,
+      api.tx.assets.transfer(paraAsset, paraDest, paraAmount, paraKeepAlive)
+    );
+      console.log("transaction result", result.toString())    
+  }
+
+  // test();
+
+
+  //eth
+
   useEffect(() => {
     if (selectedNetworkFrom !== '' && selectedAssetFrom !== '') {
       setDisabled(false);
@@ -128,6 +222,11 @@ export default function Compose() {
     <>
       <Layout>
         <main>
+          {/* eth balance */}
+          <Web3ReactProvider getLibrary={getLibrary}>
+            <Connect />
+          </Web3ReactProvider>
+          
           <section className='flex mx-auto mt-12'>
             {
               stepper ?
@@ -397,7 +496,7 @@ export default function Compose() {
                   {
                     idx === 0 ?
                       <div className='flex justify-between mt-10 w-full'>
-                        <Input id="custom-deadline" value={deadline} onChange={e => setDeadline(e.target.value)} className='w-full h-32 mr-8 text-left pl-8 placeholder:text-white/40' autoFocus={true} type="text" placeholder="Custom deadline"/>
+                        <Input id="custom-deadline" value={deadline} onChange={e => setDeadline(e.target.value)} className='after:[] w-full h-32 mr-8 text-left pl-8 placeholder:text-white/40' autoFocus={true} type="number" placeholder="Custom deadline"/>
                         <Button disabled={deadline === ''} onClick={() => setIsOpenAssetSettings(false)} className='w-[72px] h-32' variant='outline'><FiCheck width={24} height={24}/></Button>  
                       </div>   
                     :undefined
@@ -405,7 +504,7 @@ export default function Compose() {
                   {
                     idx === 1 ?
                       <div className='flex justify-between mt-10 w-full'>
-                        <Input id="custom-slippage" value={slippage} onChange={e => setSlippage(e.target.value)} className='w-full h-32 mr-8 text-left pl-8 placeholder:text-white/40' autoFocus={true} type="text" placeholder="Custom slippage"/>
+                        <Input id="custom-slippage" value={slippage} onChange={e => setSlippage(e.target.value)} className='after:[] w-full h-32 mr-8 text-left pl-8 placeholder:text-white/40' autoFocus={true} type="number" placeholder="Custom slippage"/>
                         <Button disabled={slippage === ''} onClick={() => setIsOpenAssetSettings(false)} className='w-[72px] h-32' variant='outline'><FiCheck width={24} height={24}/></Button>  
                       </div>   
                     :undefined

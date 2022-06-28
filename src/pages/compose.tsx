@@ -1,20 +1,19 @@
+import { Web3Provider } from '@ethersproject/providers'
 import { Tab } from '@headlessui/react';
+import { Web3ReactProvider } from '@web3-react/core'
+import { useWeb3React } from '@web3-react/core'
+import BN from 'bn.js';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { AiTwotoneSetting } from "react-icons/ai";
 import { FiCheck, FiPercent,FiPlus } from "react-icons/fi";
 import { GoLinkExternal } from 'react-icons/go';
 import { RiFileCopyLine } from "react-icons/ri";
-import { Web3ReactProvider } from '@web3-react/core'
-import { Web3Provider } from '@ethersproject/providers'
-import { useWeb3React } from '@web3-react/core'
-import { NetworkConnector } from '@web3-react/network-connector'
-import useSWR from 'swr'
-import { formatEther } from '@ethersproject/units'
 
 import clsxm from '@/lib/clsxm';
 
 import { Button, Input, Tabs } from '@/components';
+import { EthBalance } from '@/components/defi/EthBalance';
 import { Layout } from '@/components/layout/Layout';
 import { Dialog } from '@/components/Molecules/Dialog';
 import { Disclosure } from '@/components/Molecules/Disclosure';
@@ -25,8 +24,9 @@ import { getAMM } from '@/defi/AMMs';
 import { getNetwork } from '@/defi/Networks';
 import { getToken } from '@/defi/Tokens';
 import { getNewConnection } from '@/pages/api/connectionHelper';
+
+import { network } from './api/ethereumConnector';
 import { sendAndWaitForSuccess } from './api/polkadot';
-import BN from 'bn.js';
 
 const networks = [
   { id: 1, label: 'picasso'},
@@ -46,10 +46,6 @@ interface valueType {
 }
 
 //#region  //*=========== fetch balance eth ===========
-export const ethereumNetwork = new NetworkConnector({
-  urls: { 1: 'http://localhost:8546' },
-  defaultChainId: 1
-})
 
 function getLibrary(provider: any): Web3Provider {
   const library = new Web3Provider(provider)
@@ -57,47 +53,18 @@ function getLibrary(provider: any): Web3Provider {
   return library
 }
 
-const fetcher = (library) => (...args) => {
-  const [method, ...params] = args
-  return library[method](...params)
-}
-
-export const Balance = () => {
-  const { account, library } = useWeb3React<Web3Provider>()
-  const { data: balance, mutate } = useSWR(['getBalance', account, 'latest'], {
-    fetcher: fetcher(library),
-  })
-
-  useEffect(() => {
-    library.on('block', () => {
-      mutate(undefined, true)
-    })
-
-    return () => {
-      library.removeAllListeners('block')
-    }
-  }, [])
-
-  if (!balance) {
-    return <div>Balance </div>
-  }
-  return <div>Balance: {parseFloat(formatEther(balance)).toPrecision(4)}</div>
-}
-
 export const Connect = () => {
-  const { chainId, account, activate, active } = useWeb3React<Web3Provider>()
-  activate(ethereumNetwork)
+  const { activate, active } = useWeb3React<Web3Provider>()
+  activate(network)
 
   return (
     <div>
-      <div>ChainId: {chainId}</div>
-      <div>Account: {account}</div>
-      {active && <Balance />}
+      {active && <EthBalance />}
     </div>
   )
 }
 
-//#endregion  //*=========== DUMMY REPLACE API ===========
+//#endregion  //*=========== fetch balance eth ===========
 
 export default function Compose() {
   const [isOpenNetwork, setIsOpenNetwork] = useState(false)

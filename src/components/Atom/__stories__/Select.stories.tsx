@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { Listbox } from '@headlessui/react'
 import { Meta,Story } from '@storybook/react';
 import React from 'react';
 
-import { Button, Select } from '@/components';
+import { Button } from '@/components';
 
 export default {
   title: 'Components/Select/Select',
-  component: Select,
+  component: Listbox,
   argTypes: {
     backgroundColor: { control: 'color' },
   },
@@ -23,20 +24,20 @@ const Template: Story = (args) => {
   const [selectedPerson, setSelectedPerson] = React.useState(options[0]);
 
   return(
-  <Select value={selectedPerson} onChange={setSelectedPerson}>
-    <Select.Button className='text-white'>{selectedPerson.name}</Select.Button>
-    <Select.Options className='text-white'>
+  <Listbox value={selectedPerson} onChange={setSelectedPerson}>
+    <Listbox.Button className='text-white'>{selectedPerson.name}</Listbox.Button>
+    <Listbox.Options className='text-white'>
       {options.map((option) => (
-        <Select.Option key={option.id} value={option} as={React.Fragment} disabled={args.disabled}>
+        <Listbox.Option key={option.id} value={option} as={React.Fragment} disabled={args.disabled}>
           {() => (
             <Button variant='outline' className='w-full mt-[39px]'>
               {option.name}
             </Button>
           )}
-        </Select.Option>
+        </Listbox.Option>
       ))}
-    </Select.Options>
-  </Select>
+    </Listbox.Options>
+  </Listbox>
 )};
 
 export const Primary = Template.bind({});

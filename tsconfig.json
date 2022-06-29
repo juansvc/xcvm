@@ -14,14 +14,9 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "baseUrl": ".",
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "sourceRoot": "ts",
     "paths": {
       "@/*": ["./src/*"],
       "~/*": ["./public/*"],
-      "@/types/*": ["@src/*"],
     },
     "incremental": true
   },

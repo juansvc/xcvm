@@ -8,6 +8,7 @@ import { Button } from '@/components/Atom/Button';
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import { Wallet } from '@/components/Organisms/Wallet';
+import { getToken } from '@/defi/Tokens';
 import { useConnectStorage } from '@/storage/useConnectStorage';
 
 

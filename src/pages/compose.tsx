@@ -45,6 +45,7 @@ export default function Compose() {
   const [stepper, setStepper] = useState(false)
   const [disabled, setDisabled] = useState(true)
   const [enableExecute, setEnableExecute] = useState(true)
+  const [enableOtherAsset, setEnableOtherAsset] = useState(false)
   const [selectedNetworkFrom, setSelectedNetworkFrom] = useState('')
   const [selectedAssetFrom, setSelectedAssetFrom] = useState('')
   const [selectedNetworkInto, setSelectedNetworkInto] = useState('')
@@ -212,8 +213,8 @@ export default function Compose() {
                       </div>
                     </div>
                     <div className='flex justify-between'>
-                      <InputAsset disabled={disabled} assetIcon={selectedAssetInto !== '' ? selectedAssetInto : undefined} id='input-asset' className='relative w-11/12'>
-                      <>
+                      <InputAsset disabled={disabled} assetIcon={selectedAssetInto !== '' ? selectedAssetInto : undefined} id='input-asset' className={`relative ${enableOtherAsset ? 'w-[45.25%]' : 'w-11/12'}`}>
+                      <div className={`${enableOtherAsset ? 'w-[275px] flex justify-end' : ''}`}>
                           {(selectedNetworkInto !== '' && selectedAssetInto !== '') &&
                             <Button className='h-10 px-4 mx-2 absolute top-0 right-0 text-white/60 hover:text-white' variant='text' onClick={() => (setIsOpenTransactionSettings(true))}><AiTwotoneSetting width={18} height={18}/></Button>
                           }
@@ -231,9 +232,35 @@ export default function Compose() {
                               {getToken(selectedAssetInto).name}
                             </Button>
                           }
-                        </>
+                        </div>
                       </InputAsset> 
-                      <Button disabled={disabled} className='w-[72px] h-36' variant='outline'><FiPlus className='w-[24px] h-[24px]' width={24} height={24}/></Button>     
+                      {enableOtherAsset ?
+
+<InputAsset assetIcon={selectedAssetInto !== '' ? selectedAssetInto : undefined} id='input-asset2' className='relative w-[45.25%]'>
+<div className='w-[275px] flex justify-end'>
+    {(selectedNetworkInto !== '' && selectedAssetInto !== '') &&
+      <Button className='h-10 px-4 mx-2 absolute top-0 right-0 text-white/60 hover:text-white' variant='text' onClick={() => (setIsOpenTransactionSettings(true))}><AiTwotoneSetting width={18} height={18}/></Button>
+    }
+    {selectedNetworkInto === '' ?
+      <Button disabled={disabled} className='h-10 px-4 mx-2' variant='outline' onClick={() => {setIsOpenNetwork(true);setSelected('into')}}>Select network</Button>
+    :
+      <Button disabled={disabled} className='h-10 px-4 mx-2' variant='secondary' onClick={() => {setIsOpenNetwork(true);setSelected('into')}} icon={<div className='-mb-1'><Image src={getNetwork(selectedNetworkInto).icon} width={18} height={18} alt=''/></div>}>
+        {getNetwork(selectedNetworkInto).name}
+      </Button>
+    }
+    {selectedAssetInto === '' ?
+      <Button disabled={disabled} className='h-10 px-4 mx-2' variant='outline' onClick={() => {setIsOpenAsset(true);setSelected('into')}}>Select asset</Button>
+    :
+      <Button disabled={disabled} className='h-10 px-4 mx-2' variant='secondary' onClick={() => {setIsOpenAsset(true);setSelected('into')}} icon={<div className='-mb-1'><Image src={getToken(selectedAssetInto).icon} width={18} height={18} alt=''/></div>}>
+        {getToken(selectedAssetInto).name}
+      </Button>
+    }
+  </div>
+</InputAsset> 
+:undefined
+
+                      }
+                      <Button onClick={() => setEnableOtherAsset(true)} disabled={disabled} className='w-[72px] h-36' variant='outline'><FiPlus className='w-[24px] h-[24px]' width={24} height={24}/></Button>     
                     </div>
                   </div>
                 </div>

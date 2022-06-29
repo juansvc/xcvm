@@ -5,7 +5,6 @@ import { FC, ReactNode, useState } from 'react';
 import { FaWallet } from 'react-icons/fa';
 
 import { Button } from '@/components/Atom/Button';
-import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import { Wallet } from '@/components/Organisms/Wallet';
 import { getToken } from '@/defi/Tokens';

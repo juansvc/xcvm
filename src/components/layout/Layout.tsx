@@ -17,7 +17,7 @@ import { getNewConnection } from '@/pages/api/connectionHelper';
 import { sendAndWaitForSuccess } from '@/pages/api/polkadot';
 import { useConnectStorage } from '@/storage/useConnectStorage';
 
-import { EthBalance } from '../Defi/EthBalance';
+import { EthBalance } from '@/components/Defi/EthBalance';
 
 export interface LayoutProps {
   children: ReactNode;

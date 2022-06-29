@@ -1,19 +1,22 @@
 import { FC } from "react";
+import { FiSearch } from "react-icons/fi";
 
 import clsxm from "@/lib/clsxm";
 
 import { Input } from "@/components/Atom";
 
-// export type SearchProps = InputProps;
+export interface SearchProps {
+  placeholder?: string;
+}
 
-export const Search: FC = () => {
+export const Search: FC<SearchProps> = ({placeholder = 'Search...'}) => {
   return (
     <div className="relative">
-        <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-            <svg className="ml-4 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        <div className=" flex text-white/60 hover:fill-white active:fill-white focus:fill-white absolute inset-y-0 left-4 items-center pl-3 pointer-events-none">
+            <FiSearch className="text-white/60 hover:fill-white active:fill-white focus:fill-white w-[20px] h-[20px]" width='20px' height='20px'/>
         </div>
-        <Input id="default-search" type="search" placeholder="Search..." autoFocus={true} className={clsxm(
-          'block w-full mb-16 text-white text-center placeholder:text-white h-16 ',
+        <Input id="default-search" type="search" placeholder={placeholder} autoFocus={true} className={clsxm(
+          'block w-full mb-16 text-white text-center placeholder:text-white/60 placeholder:hover:text-white placeholder:active:text-white placeholder:focus:text-white h-16 ',
         )}/>
     </div>
   )

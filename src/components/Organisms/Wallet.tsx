@@ -20,10 +20,10 @@ export const Wallet: FC<WalletProps> = ({
 }) => {
 
   return (
-    <div className={`w-[480px] h-[700px] bg-white/5 rounded-3xl shadow backdrop-blur flex items-center justify-center ${className}`}>
+    <div className={`w-[446px] h-[700px] bg-white/[0.04] rounded-3xl shadow backdrop-blur flex items-center justify-center ${className}`}>
       <>
         {back ? 
-          <FaChevronLeft className='absolute top-12 left-14 hover:cursor-pointer w-5 h-5' onClick={back} />
+          <FaChevronLeft className='absolute fill-white/60 top-8 left-8 hover:cursor-pointer hover:fill-white w-5 h-5' onClick={back} />
         :undefined}
         <div className='flex flex-col items-center p-0 gap-12'>
           <div className='flex flex-col items-center p-0 gap-4 w-[310px] h-[266] order-1'>

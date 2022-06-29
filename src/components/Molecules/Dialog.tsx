@@ -1,5 +1,6 @@
 import { Dialog as HeadlesDialog, Transition } from '@headlessui/react'
 import { FC, Fragment, ReactNode } from 'react';
+import { FaTimes } from "react-icons/fa";
 
 export interface DialogProps {
   title: string;
@@ -30,6 +31,7 @@ export const Dialog: FC<DialogProps> = ({
         </Transition.Child>
       
         <div className="fixed inset-0 overflow-y-auto">
+          <div className='absolute top-[50px] right-[60px] w-[18px] h-[18px]' onClick={() => onClose}><FaTimes className=' w-[18px] h-[18px] fill-white/60 hover:fill-white hover:cursor-pointer' width={18} height={18}/></div>
           <div className="flex min-h-full items-center justify-center p-4 text-center">
             <Transition.Child
               as={Fragment}

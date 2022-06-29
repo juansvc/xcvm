@@ -44,10 +44,12 @@ module.exports = {
       },
       linearBorderGradients: {
         colors: {
-          'gradient-light': ['#8A2387', '#E94057', '#F27121']
+          'gradient-light': ['#8A2387', '#E94057', '#F27121'],
+          'gradient-soft': ['#8A238716', '#E9405716', '#F2712116']
         },
         background: {
           'transparent': ['#290a28', '#500913'],
+          'soft': ['#8A238716', '#E9405716', '#F2712116'],
           'colored': 'transparent',
         },
       },

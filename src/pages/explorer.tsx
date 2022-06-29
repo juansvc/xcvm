@@ -1,9 +1,8 @@
 import { Tab } from '@headlessui/react';
 import Image from 'next/image';
 import { useState } from 'react';
-import { GoLinkExternal } from "react-icons/go";
+import { VscLinkExternal } from "react-icons/vsc";
 
-import withApollo from '@/lib/withApollo';
 
 import { Tabs } from '@/components';
 import { Layout } from '@/components/layout/Layout';
@@ -82,7 +81,7 @@ export function Explorer() {
               className='pt-16'
             >
               <form>   
-                <Search/>
+                <Search placeholder='Search for actions, chains and assets'/>
               </form>
               {posts.map((post) => (
                 <div className='pb-4'  key={post.id}>
@@ -110,12 +109,12 @@ export function Explorer() {
                             <td>
                               <div className='mr-2 inline-flex relative top-[3px]'><Image src={getToken(post.from).icon} width={20} height={20} alt='' /></div>
                               {getToken(post.from).symbol}
-                              <GoLinkExternal className='inline-flex ml-2 mb-[3px]'/>
+                              <VscLinkExternal className='stroke-1 stroke-white/60 fill-white/60 hover:fill-white hover:stroke-white hover:cursor-pointer inline-flex ml-2 mb-[3px]'/>
                             </td>
                             <td>
                               <div className='mr-2 inline-flex relative top-[3px]'><Image src={getToken(post.into).icon} width={20} height={20} alt='' /></div>
                               {getToken(post.into).symbol}
-                              <GoLinkExternal className='inline-flex ml-2 mb-[3px]'/>
+                              <VscLinkExternal className='stroke-1 stroke-white/60 fill-white/60 hover:fill-white hover:stroke-white hover:cursor-pointer inline-flex ml-2 mb-[3px]'/>
                             </td>
                             <td>
                               <div className='mr-2 inline-flex relative top-[3px]'><Image src={getToken('usdc').icon} width={20} height={20} alt='' /></div>
@@ -138,4 +137,4 @@ export function Explorer() {
   );
 }
 
-export default withApollo({ ssr: true })(Explorer);
+export default Explorer;

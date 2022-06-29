@@ -1,34 +1,127 @@
-import Image from "next/image";
-import Link from "next/link";
 
-import { Button } from "@/components/Atom";
+import Image from 'next/image';
+import Link from 'next/link';
+import { useState } from 'react';
 
-export default function HomePage() {
+import { Button } from '@/components';
+import { Wallet } from '@/components/Organisms/Wallet';
 
+import { getToken } from "@/defi/Tokens";
+import { useConnectStorage } from '@/storage/useConnectStorage';
+
+
+
+export default function InitWallet() {
+  const [ step, setStep ] = useState(1);
+
+  const prevStep = () => {
+    setStep(step - 1);
+  }
+
+  const nextStep = () => {
+    setStep(step + 1);
+  }
+
+  const [connected, setConnected] = useConnectStorage(false, 'connected');
+
+
+  const Connect = () => (
+    <Wallet 
+      title='Wallets'
+      subtitle='Connect your Dotsama, EVM and Cosmos wallets to continue'
+      image={<Image alt='' src="/images/face3.png" height={128} width={128} />}
+      >
+        <>
+          <div className='flex flex-row items-start p-0 order-2'>
+            <Button className='w-[350px] h-[72px]' icon={
+              <div className='inline-flex'>
+                <div className='pt-1'><Image src={getToken('dot_alt').iconGray as string} alt='' height={20} width={20} /></div>
+                <div className='mx-2 pt-1'><Image src={getToken('eth_alt').iconGray as string} alt='' height={20} width={20} /></div>
+                <div className='pt-1'><Image src={getToken('cosmos_alt').iconGray as string} alt='' height={20} width={20} /></div>
+              </div>
+            } variant='outline' onClick={nextStep}>Connect</Button>
+          </div>
+          {/* TODO: Component for Mini Stepper */}
+          <div className='flex flex-row p-0 order-3 items-center justify-center'>
+            <Image src={getToken('dot_alt').iconEmpty as string} alt='' height={24} width={24} />
+            <div className='w-24 pb-[2px]'><div className='absolute border-2 border-white/20 w-24'></div></div>
+            <Image src={getToken('eth_alt').iconEmpty as string} alt='' height={24} width={24} />
+            <div className='w-24 pb-[2px]'><div className='absolute border-2 border-white/20 w-24'></div></div>
+            <Image src={getToken('cosmos_alt').iconEmpty as string} alt='' height={24} width={24} />
+          </div>
+        </>
+    </Wallet>
+  );
+
+  const Dotsama = () => (
+    <Wallet 
+      title='Dotsama'
+      subtitle='Select your Dotsama wallet'
+      image={<Image src={getToken('dot_alt').icon} alt='' height={64} width={64} />}
+      back={prevStep}
+      >
+        <>
+          <div className='flex flex-row items-start p-0 order-2'>
+            <Button className='w-[350px] h-[72px]' icon={
+              <div className='pt-1'><Image src='/icons/polkadotjs.svg' alt='' height={20} width={20} /></div>
+            } variant='outline' onClick={nextStep}>Polkadot.js</Button>
+          </div>
+          {/* TODO: Component for Mini Stepper */}
+          <div className='flex flex-row p-0 order-3 items-center justify-center'>
+            <Image src={getToken('dot_alt').icon} alt='' height={24} width={24} />
+            <div className='w-24 pb-[2px]'><div className='absolute border-2 border-white/60 w-24'></div></div>
+            <Image src={getToken('eth_alt').iconEmpty as string} alt='' height={24} width={24} />
+            <div className='w-24 pb-[2px]'><div className='absolute border-2 border-white/20 w-24'></div></div>
+            <Image src={getToken('cosmos_alt').iconEmpty as string} alt='' height={24} width={24} />
+          </div>
+        </>
+    </Wallet>
+  );
+
+  const Evm = () => {
+
+    return (
+    <>
+      <Wallet 
+        title='EVM'
+        subtitle='Select your EVM wallet'
+        image={<Image src={getToken('eth_alt').icon} alt='' height={64} width={64} />}
+        back={prevStep}
+        >
+          <>
+            <div className='flex flex-row items-start p-0 order-2'>
+              <Link href='/compose' passHref>
+                <Button className='w-[350px] h-[72px]' icon={
+                  <div className='pt-1'><Image src='/icons/metamask.svg' alt='' height={20} width={20} /></div>
+                } variant='outline' onClick={() => {setConnected(true)}}>Metamask</Button>
+              </Link>
+            </div>
+            {/* TODO: Component for Mini Stepper */}
+            <div className='flex flex-row p-0 order-3 items-center justify-center'>
+              <Image src={getToken('dot_alt').icon} alt='' height={24} width={24} />
+              <div className='w-24 pb-[2px]'><div className='absolute border-2 border-white/60 w-24'></div></div>
+              <Image src={getToken('eth_alt').icon} alt='' height={24} width={24} />
+              <div className='w-24 pb-[2px]'><div className='absolute border-2 border-white/60 w-24'></div></div>
+              <Image src={getToken('cosmos_alt').iconEmpty as string} alt='' height={24} width={24} />
+            </div>
+          </>
+      </Wallet>
+    </>
+  )};
 
   return (
-    <div className="flex w-[100vw] h-[100vh] px-[8%] justify-center items-center box">
-      <div className="absolute left-0 top-0 right-0 bottom-auto z-[1] flex w-[100%] h-[120px] p-[8%] justify-between items-center">
-        <div className="flex w-[200px] justify-center items-center">
-          <Image src="/svg/xcvm.svg" width={200} height={200} loading="lazy" alt="" className="max-w-[100%] align-middle inline-block"/>
-        </div>
-        <Link href='/compose' passHref>
-          <a className="flex py-5 px-16 justify-center items-center">
-            <Button className='py-0 w-80 h-[85px] rounded-[24px] text-xl'>Launch XCVM</Button>
-          </a>
-        </Link>
-      </div>
-      <div className="relative z-[1] flex flex-col items-center">
-        <h1 className="my-0 text-9xl">xcvm</h1>
-        <p className="h6 centered">Composing interoperable DeFi through cross-chain smart contracts</p>
-      </div>
-      <div className="absolute w-[100%] h-[100%] opacity-[0.46] blur-[20px] mix-blend-normal overflow-hidden">
-        <video autoPlay={true} loop={true} muted={true} playsInline={true}
-        className="bg-cover bg-[50% 50%] absolute m-auto w-[100%] h-[100%] right-[-100%] bottom-[-100%] top-[-100%] left-[-100%] object-cover z-[-100] inline-block align-baseline">
-          <source src="/images/background-xcvm.mp4"/>
-            <source src="/images/background-xcvm.webm"/>
-        </video>
-      </div>
-    </div>
+    
+      <main>
+        <section className='flex flex-row justify-center items-center pt-16 gap-3'>
+          {
+            {
+              1: <Connect />,
+              2: <Dotsama />,
+              3: <Evm />
+            }[step]
+          }
+        </section>
+      </main>
+      
   );
 }

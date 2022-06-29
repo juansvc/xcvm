@@ -2,7 +2,7 @@ import { Tab } from '@headlessui/react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { AiTwotoneSetting } from "react-icons/ai";
-import { FiCheck, FiPercent,FiPlus } from "react-icons/fi";
+import { FiCheck,FiPlus } from "react-icons/fi";
 import { GoLinkExternal } from 'react-icons/go';
 import { RiFileCopyLine } from "react-icons/ri";
 
@@ -73,10 +73,7 @@ export default function Compose() {
       },
     ],
     'Custom destination': [],
-  })
-
-  const [categoriesComposition] = useState({
-    'Slippage tolerance': [
+    'Slippage': [
       {
         id: 1,
         label: '0.5 %',
@@ -94,6 +91,9 @@ export default function Compose() {
         label: '5 %',
       },
     ],
+  })
+
+  const [categoriesComposition] = useState({
     'Transaction deadline': [
       {
         id: 1,
@@ -175,13 +175,10 @@ export default function Compose() {
                 </div>
                 <div className='mt-10'>
                   <div className='w-full h-32 mt-6'>
-                    <h5 className='text-white/60 mb-8'>from</h5>
+                    <h5 className='text-white/60 mb-8'>From</h5>
                     <div className='flex justify-between'>
-                      <InputAsset assetIcon={selectedAssetFrom !== '' ? selectedAssetFrom : undefined} id='input-asset' className='w-11/12'>
+                      <InputAsset assetIcon={selectedAssetFrom !== '' ? selectedAssetFrom : undefined} id='input-asset' className='w-11/12 relative'>
                         <>
-                          {(selectedNetworkFrom !== '' && selectedAssetFrom !== '') &&
-                            <Button className='h-10 px-4 mx-2' variant='secondary' onClick={() => (setIsOpenTransactionSettings(true))}><FiPercent width={18} height={18}/></Button>
-                          }
                           {selectedNetworkFrom === '' ?
                             <Button className='h-10 px-4 mx-2' variant='outline' onClick={() => {setIsOpenNetwork(true);setSelected('from')}}>Select network</Button>
                           :
@@ -199,7 +196,7 @@ export default function Compose() {
                         </>
                       </InputAsset> 
                       {/* Disabled for DEMO */}
-                      <Button disabled={true} className='w-[72px] h-36' variant='outline'><FiPlus width={24} height={24}/></Button>     
+                      <Button disabled={true} className='w-[72px] h-36' variant='outline'><FiPlus className='w-[24px] h-[24px]' width={24} height={24}/></Button>     
                     </div>
                   </div>
                   <div className={clsxm(
@@ -211,14 +208,14 @@ export default function Compose() {
                         <h5 className='text-white/60 mb-8'>Into</h5>
                       </div>
                       <div className='flex -mt-3'>
-                        <Button disabled={disabled} className='w-14 h-14 p-0' variant='secondary' onClick={() => {setIsOpenAssetSettings(true)}}><AiTwotoneSetting width={24} height={24}/></Button>     
+                        <Button disabled={disabled} className='w-14 h-14 p-0 text-white/60 hover:text-white' variant='secondary' onClick={() => {setIsOpenAssetSettings(true)}}><AiTwotoneSetting width={24} height={24}/></Button>     
                       </div>
                     </div>
                     <div className='flex justify-between'>
-                      <InputAsset disabled={disabled} assetIcon={selectedAssetInto !== '' ? selectedAssetInto : undefined} id='input-asset' className='w-11/12'>
+                      <InputAsset disabled={disabled} assetIcon={selectedAssetInto !== '' ? selectedAssetInto : undefined} id='input-asset' className='relative w-11/12'>
                       <>
                           {(selectedNetworkInto !== '' && selectedAssetInto !== '') &&
-                            <Button disabled={disabled} className='h-10 px-4 mx-2' variant='secondary' onClick={() => (setIsOpenTransactionSettings(true))}><FiPercent width={18} height={18}/></Button>
+                            <Button className='h-10 px-4 mx-2 absolute top-0 right-0 text-white/60 hover:text-white' variant='text' onClick={() => (setIsOpenTransactionSettings(true))}><AiTwotoneSetting width={18} height={18}/></Button>
                           }
                           {selectedNetworkInto === '' ?
                             <Button disabled={disabled} className='h-10 px-4 mx-2' variant='outline' onClick={() => {setIsOpenNetwork(true);setSelected('into')}}>Select network</Button>
@@ -236,7 +233,7 @@ export default function Compose() {
                           }
                         </>
                       </InputAsset> 
-                      <Button disabled={disabled} className='w-[72px] h-36' variant='outline'><FiPlus width={24} height={24}/></Button>     
+                      <Button disabled={disabled} className='w-[72px] h-36' variant='outline'><FiPlus className='w-[24px] h-[24px]' width={24} height={24}/></Button>     
                     </div>
                   </div>
                 </div>
@@ -333,7 +330,7 @@ export default function Compose() {
                     idx === 0 ?
                       <>
                         <form>   
-                          <Search/>
+                          <Search placeholder='Search for AMMs'/>
                         </form>
                         <div className='flex justify-between'>
                           {
@@ -342,9 +339,9 @@ export default function Compose() {
                               key={post.id}
                               active={post.label === selectedAMM[1]}
                               className={clsxm(
-                                'w-[49%]',
+                                'w-[49%] justify-start pl-[32px]',
                               )}
-                              variant='secondary' 
+                              variant='soft' 
                               onClick={() => {setSelectedAMM({1: post.label})}}
                               icon={
                                 // @ts-expect-error post.label for uniswap/sushiswap
@@ -359,33 +356,22 @@ export default function Compose() {
                           ))}
                         </div>
                       </>
-                    :
+                    : idx === 1 ?
                       <div className='flex justify-between'>
                         <Input id="custom-address" value={valueAddress[1]} onChange={e => setValueAddress({1: e.target.value})} className='w-full h-32 mr-8 text-left pl-8 placeholder:text-white/40' autoFocus={true} type="text" placeholder="Destination address"/>
                         <Button disabled={valueAddress[1] === ''} onClick={() => setIsOpenAssetSettings(false)} className='w-[72px] h-32' variant='outline'><FiCheck width={24} height={24}/></Button>  
                       </div>   
-                  }
-                </Tab.Panel>
-              ))}
-        </Tabs>
-      </Dialog>
-
-      <Dialog show={isOpenTransactionSettings} onClose={() => setIsOpenTransactionSettings(false)} title='Composition Settings'>
-        <Tabs categories={categoriesComposition}>
-          {Object.values(categoriesComposition).map((posts, idx) => (
-            <div key={idx}>
-              <Tab.Panel
-                className='pt-16'
-              >
+                    :
+                    <>
                 <div className='flex justify-between'>
                   {posts.map((post) => (
                     <div key={post.id} className='w-[24%]' onClick={idx === 0 ? () => setDeadline(post.label) : () => setSlippage(post.label)}>
                       <div className={clsxm(
-                        'border rounded-3xl h-24 px-3 py-2',
-                        'border-gray-300 text-white/60 text-left w-full'
+                        'border rounded-3xl h-32 px-3 py-5',
+                        'border-white/25 border-2 text-white/60 text-left w-full'
                       )}>
                         <label className="block text-sm mt-4 ml-6">
-                          {idx === 0 ? 'Slippage' : 'Deadline'}
+                          Slippage
                         </label>
                         <div className='flex mt-2 ml-6'>
                             {post.label}
@@ -395,27 +381,55 @@ export default function Compose() {
                   ))}
                 </div>
                 <div className='flex w-full'>
-                  {
-                    idx === 0 ?
-                      <div className='flex justify-between mt-10 w-full'>
-                        <Input id="custom-deadline" value={deadline} onChange={e => setDeadline(e.target.value)} className='after:[] w-full h-32 mr-8 text-left pl-8 placeholder:text-white/40' autoFocus={true} type="number" placeholder="Custom deadline"/>
-                        <Button disabled={deadline === ''} onClick={() => setIsOpenAssetSettings(false)} className='w-[72px] h-32' variant='outline'><FiCheck width={24} height={24}/></Button>  
-                      </div>   
-                    :undefined
-                  }
-                  {
-                    idx === 1 ?
                       <div className='flex justify-between mt-10 w-full'>
                         <Input id="custom-slippage" value={slippage} onChange={e => setSlippage(e.target.value)} className='after:[] w-full h-32 mr-8 text-left pl-8 placeholder:text-white/40' autoFocus={true} type="number" placeholder="Custom slippage"/>
                         <Button disabled={slippage === ''} onClick={() => setIsOpenAssetSettings(false)} className='w-[72px] h-32' variant='outline'><FiCheck width={24} height={24}/></Button>  
                       </div>   
-                    :undefined
-                  }
                 </div>
-              </Tab.Panel>
-            </div>
+                </>
+                  }
+                </Tab.Panel>
               ))}
         </Tabs>
+      </Dialog>
+
+      <Dialog show={isOpenTransactionSettings} onClose={() => setIsOpenTransactionSettings(false)} title='Transaction deadline'>
+          {Object.values(categoriesComposition).map((posts, idx) => (
+            
+            <div key={idx}>
+
+{
+                    idx === 0 ?
+<>
+                <div className='flex mt-16 justify-between'>
+                  {posts.map((post) => (
+                    <div key={post.id} className='w-[24%]' onClick={idx === 0 ? () => setDeadline(post.label) : () => setSlippage(post.label)}>
+                      <div className={clsxm(
+                        'border rounded-3xl h-32 px-3 py-5',
+                        'border-white/25 border-2 text-white/60 text-left w-full'
+                      )}>
+                        <label className="block text-sm mt-4 ml-6">
+                          Deadline
+                        </label>
+                        <div className='flex mt-2 ml-6'>
+                            {post.label}
+                        </div>
+                      </div> 
+                    </div>
+                  ))}
+                </div>
+                <div className='flex w-full'>
+                      <div className='flex justify-between mt-10 w-full'>
+                        <Input id="custom-deadline" value={deadline} onChange={e => setDeadline(e.target.value)} className='after:[] w-full h-32 mr-8 text-left pl-8 placeholder:text-white/40' autoFocus={true} type="number" placeholder="Custom deadline"/>
+                        <Button disabled={deadline === ''} onClick={() => setIsOpenAssetSettings(false)} className='w-[72px] h-32' variant='outline'><FiCheck width={24} height={24}/></Button>  
+                      </div>   
+                </div>
+                </>
+:undefined
+}
+            </div>
+
+              ))}
       </Dialog>
   </>
   );

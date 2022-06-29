@@ -7,6 +7,7 @@ enum ButtonVariant {
   'outline',
   'secondary',
   'text',
+  'soft'
 }
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -64,6 +65,15 @@ export const Button: FC<ButtonProps> = (
               'border-gradient-r-gradient-light-colored'
             ],
           ],
+          variant === 'soft' && [
+            'text-white border-white/20 border-2',
+            'hover:border-gradient-r-gradient-light-transparent',
+            'active:border-gradient-r-gradient-light-transparent',
+            'disabled:opacity-20 disabled:border-gradient-r-gradient-soft-transparent',
+            active && [
+              'border-gradient-r-gradient-light-transparent'
+            ],
+          ],
           variant === 'text' && [
             'text-purple',
             'shadow-none',
@@ -81,7 +91,7 @@ export const Button: FC<ButtonProps> = (
       )}
       {...rest}
     >
-      {icon && (variant === 'outline' || variant === 'secondary') && (
+      {icon && (variant === 'outline' || variant === 'secondary' || variant === 'soft') && (
         <div className={clsxm([children && ['mr-[16px]']])}>{icon}</div>
       )}
       {children}

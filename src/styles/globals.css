@@ -8,7 +8,7 @@
     background-size: cover;
   }
 
-  html, body {
+  html, body, #__next {
     height: 100%;
     overflow-x: hidden;
     user-select: none;

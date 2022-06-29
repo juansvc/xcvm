@@ -5,10 +5,10 @@ import clsxm from '@/lib/clsxm';
 
 
 const links = [
-  { href: '/', label: 'Dashboard' },
+  { href: '', label: 'Dashboard' },
   { href: '/compose', label: 'Compose', enabled: true },
   { href: '/explorer', label: 'Explorer', enabled: true },
-  { href: '/', label: 'Earn' },
+  { href: '', label: 'Earn' },
 ];
 
 export default function Header() {
@@ -16,7 +16,7 @@ export default function Header() {
   return (
     <header className='sticky top-0z-50 select-none'>
       <div className='w-11/12 mx-auto flex h-32 items-center justify-between'>
-        <Link href='/' passHref>
+        <Link href='/compose' passHref>
           <a><Image className='w-44 object-contain' alt='' src="/svg/xcvm.svg" height={53} width={135} /></a>
         </Link>
         <nav>
@@ -28,17 +28,21 @@ export default function Header() {
                     'active:text-white',
                     'hover:text-white',
                     'focused:text-white',
-                    enabled ?? 'text-white/20 hover:text-white/20'
+                    enabled ?? 'text-white/20 hover:text-white/20 hover:cursor-not-allowed cursor-not-allowed'
                   )}>
-                  <Link href={href} >
-                    {label}
-                  </Link>
+                    {enabled ? 
+                    <Link href={href} >
+                      {label}
+                    </Link>
+                    :
+                      label
+                    }
                 </h6>
               </li>
             ))}
           </ul>
         </nav>
-        <div className='-z-10 ml-20'></div>
+        <div className='-z-10 ml-[72px]'></div>
       </div>
     </header>
   );

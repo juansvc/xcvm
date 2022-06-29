@@ -1,5 +1,4 @@
-import { Web3Provider } from '@ethersproject/providers'
-import { Web3ReactProvider } from '@web3-react/core'
+
 import { AppProps } from 'next/app';
 
 import '@/styles/globals.css';
@@ -12,9 +11,7 @@ function getLibrary(provider: any): Web3Provider {
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <Web3ReactProvider getLibrary={getLibrary}>
       <Component {...pageProps} />
-    </Web3ReactProvider>
   );
 }
 

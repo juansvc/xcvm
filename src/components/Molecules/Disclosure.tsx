@@ -1,6 +1,6 @@
 import { Disclosure as DisclosureHeadless } from "@headlessui/react";
 import { FC, ReactNode } from "react";
-import { FiChevronUp } from "react-icons/fi";
+import { FiChevronDown } from "react-icons/fi";
 
 import clsxm from "@/lib/clsxm";
 
@@ -26,7 +26,7 @@ export const Disclosure: FC<DisclosureProps> = ({
                   'rounded-3xl'
                 )}>
               <span>{title}</span>
-              <FiChevronUp
+              <FiChevronDown
                 className={clsxm(
                   'h-6 w-6 text-white',
                   open ? 'rotate-180 transform' : ''

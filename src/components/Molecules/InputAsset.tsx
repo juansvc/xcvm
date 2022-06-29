@@ -28,7 +28,7 @@ export const InputAsset: FC<InputAssetProps> = (
       'border rounded-3xl h-36 px-3 py-2',
       className,
       disabled ? 'border-gray-300/30 text-white/30' :
-      'border-gray-300 text-white/60'
+      'border-white/25 border-2 text-white/60'
     )}>
       <label htmlFor="name" className="block text-sm mt-5 ml-6">
         Amount

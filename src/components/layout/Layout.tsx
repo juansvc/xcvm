@@ -8,6 +8,7 @@ import { Button } from '@/components/Atom/Button';
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import { Wallet } from '@/components/Organisms/Wallet';
+import { useConnectStorage } from '@/storage/useConnectStorage';
 
 
 export interface LayoutProps {

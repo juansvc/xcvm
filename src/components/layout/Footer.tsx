@@ -4,7 +4,7 @@ import { FaDiscord,FaGithub,FaTwitter } from "react-icons/fa";
 export default function Footer() {
   return (
     <>
-    <div className='clear-both h-28 relative'>
+    <div className='h-28 relative'>
     <footer className='w-11/12 absolute bottom-12 left-0 right-0 flex mx-auto h-auto items-center justify-between select-none mt-10'>
       <Link href='https://www.composable.finance/' passHref>
         <a target="_blank" rel="noopener noreferrer"><img className='object-contain' alt='' src="/svg/composable-light.svg" height={36} width={125.24} /></a>

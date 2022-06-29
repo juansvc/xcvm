@@ -9,6 +9,7 @@ import Header from '@/components/layout/Header';
 import { Wallet } from '@/components/Organisms/Wallet';
 import { getToken } from '@/defi/Tokens';
 import { useConnectStorage } from '@/storage/useConnectStorage';
+import Footer from '@/components/layout/Footer';
 
 
 export interface LayoutProps {
@@ -83,6 +84,7 @@ export const Layout: FC<LayoutProps> = ({
         }
       </div>
       {children}
+      <Footer/>
     </>
   );
 }

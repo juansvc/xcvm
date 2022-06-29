@@ -1,7 +1,7 @@
 import { NetworkConnector } from "@web3-react/network-connector";
 
 const RPC_URLS = {
-  1: 'http://localhost:8546',
+  1: 'http://localhost:8178',
 };
 
 export const network = new NetworkConnector({

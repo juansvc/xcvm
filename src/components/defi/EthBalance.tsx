@@ -1,7 +1,7 @@
 import {Web3Provider} from "@ethersproject/providers";
 import {formatEther} from "@ethersproject/units";
 import {useWeb3React} from "@web3-react/core";
-import React, {useEffect} from "react";
+import {useEffect} from "react";
 import useSWR from "swr";
 
 export const EthBalance = () => {
@@ -18,7 +18,7 @@ export const EthBalance = () => {
   }, [])
 
   if (!balance) {
-    return <div>No balance</div>
+    return '0'
   }
-  return <div>Balance: {parseFloat(formatEther(balance)).toPrecision(4)}</div>
+  return parseFloat(formatEther(balance)).toPrecision(4)
 }

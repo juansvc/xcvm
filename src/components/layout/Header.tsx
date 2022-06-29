@@ -17,7 +17,7 @@ export default function Header() {
     <header className='sticky top-0z-50 select-none'>
       <div className='w-11/12 mx-auto flex h-32 items-center justify-between'>
         <Link href='/' passHref>
-          <a><Image className='w-44 object-contain' alt='' src="/svg/xcvm.svg" height={26} width={70} /></a>
+          <a><Image className='w-44 object-contain' alt='' src="/svg/xcvm.svg" height={53} width={135} /></a>
         </Link>
         <nav>
           <ul className='flex items-center justify-between space-x-4'>
@@ -38,7 +38,7 @@ export default function Header() {
             ))}
           </ul>
         </nav>
-        <div className='-z-10'></div>
+        <div className='-z-10 ml-20'></div>
       </div>
     </header>
   );

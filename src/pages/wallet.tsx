@@ -1,3 +1,5 @@
+import { Web3Provider } from '@ethersproject/providers';
+import { useWeb3React } from '@web3-react/core'
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -7,6 +9,8 @@ import { Wallet } from '@/components/Organisms/Wallet';
 
 import { getToken } from "@/defi/Tokens";
 import { useConnectStorage } from '@/storage/useConnectStorage';
+
+import { network } from './api/ethereumConnector';
 
 
 export default function InitWallet() {
@@ -21,6 +25,13 @@ export default function InitWallet() {
   }
 
   const [connected, setConnected] = useConnectStorage(false, 'connected');
+
+
+  function getLibrary(provider: any): Web3Provider {
+    const library = new Web3Provider(provider)
+    library.pollingInterval = 12000
+    return library
+  }
 
   const Connect = () => (
     <Wallet 
@@ -75,32 +86,38 @@ export default function InitWallet() {
     </Wallet>
   );
 
-  const Evm = () => (
-    <Wallet 
-      title='EVM'
-      subtitle='Select your EVM wallet'
-      image={<Image src={getToken('eth_alt').icon} alt='' height={64} width={64} />}
-      back={prevStep}
-      >
-        <>
-          <div className='flex flex-row items-start p-0 order-2'>
-            <Link href='/compose' passHref>
-              <Button className='w-[350px] h-[72px]' icon={
-                <div className='pt-1'><Image src='/icons/metamask.svg' alt='' height={20} width={20} /></div>
-              } variant='outline' onClick={setConnected(true)}>Metamask</Button>
-            </Link>
-          </div>
-          {/* TODO: Component for Mini Stepper */}
-          <div className='flex flex-row p-0 order-3 items-center justify-center'>
-            <Image src={getToken('dot_alt').icon} alt='' height={24} width={24} />
-            <div className='w-24 pb-[2px]'><div className='absolute border-2 border-white/60 w-24'></div></div>
-            <Image src={getToken('eth_alt').icon} alt='' height={24} width={24} />
-            <div className='w-24 pb-[2px]'><div className='absolute border-2 border-white/60 w-24'></div></div>
-            <Image src={getToken('cosmos_alt').iconEmpty as string} alt='' height={24} width={24} />
-          </div>
-        </>
-    </Wallet>
-  );
+  const Evm = () => {
+
+    const { activate } = useWeb3React<Web3Provider>()
+
+    return (
+    <>
+      <Wallet 
+        title='EVM'
+        subtitle='Select your EVM wallet'
+        image={<Image src={getToken('eth_alt').icon} alt='' height={64} width={64} />}
+        back={prevStep}
+        >
+          <>
+            <div className='flex flex-row items-start p-0 order-2'>
+              <Link href='/compose' passHref>
+                <Button className='w-[350px] h-[72px]' icon={
+                  <div className='pt-1'><Image src='/icons/metamask.svg' alt='' height={20} width={20} /></div>
+                } variant='outline' onClick={() => {setConnected(true);activate(network)}}>Metamask</Button>
+              </Link>
+            </div>
+            {/* TODO: Component for Mini Stepper */}
+            <div className='flex flex-row p-0 order-3 items-center justify-center'>
+              <Image src={getToken('dot_alt').icon} alt='' height={24} width={24} />
+              <div className='w-24 pb-[2px]'><div className='absolute border-2 border-white/60 w-24'></div></div>
+              <Image src={getToken('eth_alt').icon} alt='' height={24} width={24} />
+              <div className='w-24 pb-[2px]'><div className='absolute border-2 border-white/60 w-24'></div></div>
+              <Image src={getToken('cosmos_alt').iconEmpty as string} alt='' height={24} width={24} />
+            </div>
+          </>
+      </Wallet>
+    </>
+  )};
 
   return (
     

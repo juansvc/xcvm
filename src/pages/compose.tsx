@@ -1,7 +1,4 @@
-import { Web3Provider } from '@ethersproject/providers'
 import { Tab } from '@headlessui/react';
-import { Web3ReactProvider } from '@web3-react/core'
-import { useWeb3React } from '@web3-react/core'
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { AiTwotoneSetting } from "react-icons/ai";
@@ -12,7 +9,6 @@ import { RiFileCopyLine } from "react-icons/ri";
 import clsxm from '@/lib/clsxm';
 
 import { Button, Input, Tabs } from '@/components';
-import { EthBalance } from '@/components/defi/EthBalance';
 import { Layout } from '@/components/layout/Layout';
 import { Dialog } from '@/components/Molecules/Dialog';
 import { Disclosure } from '@/components/Molecules/Disclosure';
@@ -23,7 +19,6 @@ import { getAMM } from '@/defi/AMMs';
 import { getNetwork } from '@/defi/Networks';
 import { getToken } from '@/defi/Tokens';
 
-import { network } from './api/ethereumConnector';
 
 const networks = [
   { id: 1, label: 'picasso'},
@@ -41,27 +36,6 @@ interface valueType {
   1?: string;
   2?: string;
 }
-
-//#region  //*=========== fetch balance eth ===========
-
-function getLibrary(provider: any): Web3Provider {
-  const library = new Web3Provider(provider)
-  library.pollingInterval = 12000
-  return library
-}
-
-export const Connect = () => {
-  const { activate, active } = useWeb3React<Web3Provider>()
-  activate(network)
-
-  return (
-    <div>
-      {active && <EthBalance />}
-    </div>
-  )
-}
-
-//#endregion  //*=========== fetch balance eth ===========
 
 export default function Compose() {
   const [isOpenNetwork, setIsOpenNetwork] = useState(false)
@@ -140,8 +114,6 @@ export default function Compose() {
     ],
   })
 
-  //eth
-
   useEffect(() => {
     if (selectedNetworkFrom !== '' && selectedAssetFrom !== '') {
       setDisabled(false);
@@ -157,11 +129,6 @@ export default function Compose() {
     <>
       <Layout>
         <main>
-          {/* eth balance */}
-          <Web3ReactProvider getLibrary={getLibrary}>
-            <Connect />
-          </Web3ReactProvider>
-          
           <section className='flex mx-auto mt-12'>
             {
               stepper ?

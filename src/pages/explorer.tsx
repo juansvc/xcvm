@@ -3,6 +3,8 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { GoLinkExternal } from "react-icons/go";
 
+import withApollo from '@/lib/withApollo';
+
 import { Tabs } from '@/components';
 import { Layout } from '@/components/layout/Layout';
 import { Search } from '@/components/Molecules/Search';
@@ -10,7 +12,7 @@ import { Search } from '@/components/Molecules/Search';
 import { getNetwork } from '@/defi/Networks';
 import { getToken } from '@/defi/Tokens';
 
-export default function Explorer() {
+export function Explorer() {
   const [categories] = useState({
     
   //#region  //*=========== DUMMY REPLACE API ===========
@@ -135,3 +137,5 @@ export default function Explorer() {
     </Layout>
   );
 }
+
+export default withApollo({ ssr: true })(Explorer);

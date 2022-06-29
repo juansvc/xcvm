@@ -1,13 +1,13 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { FaDiscord,FaGithub,FaTwitter } from "react-icons/fa";
 
 export default function Footer() {
   return (
     <>
-    <footer className='w-11/12 absolute bottom-0 left-0 right-0 flex mx-auto h-auto items-center justify-between select-none mt-10'>
+    <div className='clear-both h-28 relative'>
+    <footer className='w-11/12 absolute bottom-12 left-0 right-0 flex mx-auto h-auto items-center justify-between select-none mt-10'>
       <Link href='https://www.composable.finance/' passHref>
-        <a target="_blank" rel="noopener noreferrer"><Image className='object-contain' alt='' src="/svg/composable-light.svg" height={36} width={125.24} /></a>
+        <a target="_blank" rel="noopener noreferrer"><img className='object-contain' alt='' src="/svg/composable-light.svg" height={36} width={125.24} /></a>
       </Link>
       <div className='w-40'>
         <ul className='flex items-center justify-between space-x-4'>
@@ -29,7 +29,7 @@ export default function Footer() {
         </ul>
       </div>
     </footer>
-    <div className='clear-both h-28'></div>
+    </div>
     </>
   );
 }

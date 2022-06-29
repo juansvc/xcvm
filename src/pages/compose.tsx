@@ -51,8 +51,8 @@ export default function Compose() {
   const [selectedNetworkInto, setSelectedNetworkInto] = useState('')
   const [selectedAssetInto, setSelectedAssetInto] = useState('')
   const [selected, setSelected] = useState('')
-  const [deadline, setDeadline] = useState('')
-  const [slippage, setSlippage] = useState('')
+  const [deadline, setDeadline] = useState('5 mins')
+  const [slippage, setSlippage] = useState('0.5%')
   const [selectedAMM, setSelectedAMM] = useState<valueType>({
     1: '',
     2: '',
@@ -77,19 +77,19 @@ export default function Compose() {
     'Slippage': [
       {
         id: 1,
-        label: '0.5 %',
+        label: '0.5%',
       },
       {
         id: 2,
-        label: '1 %',
+        label: '1%',
       },
       {
         id: 3,
-        label: '2 %',
+        label: '2%',
       },
       {
         id: 4,
-        label: '5 %',
+        label: '5%',
       },
     ],
   })
@@ -306,9 +306,9 @@ export default function Compose() {
 
       <Dialog show={isOpenNetwork} onClose={() => setIsOpenNetwork(false)} title='Select Network'>
         <div className="mt-12">
-          <Search/>
+          <Search placeholder='Search for networks'/>
         </div>
-        <div className="mt-[72px]">
+        <div className="-mt-8">
           {networks.map(({ id, label }) => (
             <Button 
               key={id} 
@@ -325,9 +325,9 @@ export default function Compose() {
 
       <Dialog show={isOpenAsset} onClose={() => setIsOpenAsset(false)} title='Select Asset'>
         <div className="mt-12">
-          <Search/>
+          <Search placeholder='Search for assets'/>
         </div>
-        <div className="mt-[72px]">
+        <div className="-mt-8">
           {assets.map(({ id, label }) => (
             <Button 
               key={id} 
@@ -339,7 +339,7 @@ export default function Compose() {
                 <h6 className='absolute left-20'>{getToken(label).name}</h6>
                 <div className='flex-col flex mr-8'>
                   <h6>76,546</h6>
-                  <span>$76,546</span>
+                  <span className='text-white/60'>$76,546</span>
                 </div>
             </Button>
           ))}
@@ -368,7 +368,7 @@ export default function Compose() {
                               className={clsxm(
                                 'w-[49%] justify-start pl-[32px]',
                               )}
-                              variant='soft' 
+                              variant='soft'
                               onClick={() => {setSelectedAMM({1: post.label})}}
                               icon={
                                 // @ts-expect-error post.label for uniswap/sushiswap
@@ -385,32 +385,33 @@ export default function Compose() {
                       </>
                     : idx === 1 ?
                       <div className='flex justify-between'>
-                        <Input id="custom-address" value={valueAddress[1]} onChange={e => setValueAddress({1: e.target.value})} className='w-full h-32 mr-8 text-left pl-8 placeholder:text-white/40' autoFocus={true} type="text" placeholder="Destination address"/>
-                        <Button disabled={valueAddress[1] === ''} onClick={() => setIsOpenAssetSettings(false)} className='w-[72px] h-32' variant='outline'><FiCheck width={24} height={24}/></Button>  
+                        <Input id="custom-address" value={valueAddress[1]} onChange={e => setValueAddress({1: e.target.value})} className='w-full h-32 mr-8 text-left h5 pl-6 placeholder:text-white/60' autoFocus={true} type="text" placeholder="ERC-20 address"/>
+                        <Button disabled={valueAddress[1] === '' && valueAddress[1] !== undefined} onClick={() => setIsOpenAssetSettings(false)} className='w-[72px] h-32' variant='outline'><FiCheck width={24} height={24}/></Button>  
                       </div>   
                     :
                     <>
                 <div className='flex justify-between'>
                   {posts.map((post) => (
-                    <div key={post.id} className='w-[24%]' onClick={idx === 0 ? () => setDeadline(post.label) : () => setSlippage(post.label)}>
-                      <div className={clsxm(
-                        'border rounded-3xl h-32 px-3 py-5',
-                        'border-white/25 border-2 text-white/60 text-left w-full'
-                      )}>
-                        <label className="block text-sm mt-4 ml-6">
-                          Slippage
-                        </label>
-                        <div className='flex mt-2 ml-6'>
-                            {post.label}
-                        </div>
-                      </div> 
-                    </div>
+                       <Button 
+                              key={post.id}
+                              active={post.label === slippage}
+                              className={clsxm(
+                                'w-[24%] flex rounded-3xl h-[96px]',
+                                'justify-start',
+                              )}
+                              variant='soft'
+                              onClick={() => setSlippage(post.label)}
+                            >
+                              <div className='flex items-center text-white ml-8'> 
+                                  <h5>{post.label}</h5>
+                              </div>
+                            </Button>
                   ))}
                 </div>
                 <div className='flex w-full'>
                       <div className='flex justify-between mt-10 w-full'>
-                        <Input id="custom-slippage" value={slippage} onChange={e => setSlippage(e.target.value)} className='after:[] w-full h-32 mr-8 text-left pl-8 placeholder:text-white/40' autoFocus={true} type="number" placeholder="Custom slippage"/>
-                        <Button disabled={slippage === ''} onClick={() => setIsOpenAssetSettings(false)} className='w-[72px] h-32' variant='outline'><FiCheck width={24} height={24}/></Button>  
+                        <Input id="custom-slippage" value={slippage} onChange={e => setSlippage(e.target.value)} className='after:[] w-full h-32 mr-8 text-left h5 pl-6 placeholder:text-white/60' autoFocus={true} type="number" placeholder="Custom slippage"/>
+                        <Button disabled={slippage === '' && slippage !== undefined} onClick={() => setIsOpenAssetSettings(false)} className='w-[72px] h-32' variant='outline'><FiCheck width={24} height={24}/></Button>  
                       </div>   
                 </div>
                 </>
@@ -430,25 +431,26 @@ export default function Compose() {
 <>
                 <div className='flex mt-16 justify-between'>
                   {posts.map((post) => (
-                    <div key={post.id} className='w-[24%]' onClick={idx === 0 ? () => setDeadline(post.label) : () => setSlippage(post.label)}>
-                      <div className={clsxm(
-                        'border rounded-3xl h-32 px-3 py-5',
-                        'border-white/25 border-2 text-white/60 text-left w-full'
-                      )}>
-                        <label className="block text-sm mt-4 ml-6">
-                          Deadline
-                        </label>
-                        <div className='flex mt-2 ml-6'>
-                            {post.label}
-                        </div>
-                      </div> 
-                    </div>
+                    <Button 
+                      key={post.id}
+                      active={post.label === deadline}
+                      className={clsxm(
+                        'w-[24%] flex rounded-3xl h-[96px]',
+                        'justify-start',
+                      )}
+                      variant='soft'
+                      onClick={() => setDeadline(post.label)}
+                    >
+                      <div className='flex items-center text-white ml-8'> 
+                          <h5>{post.label}</h5>
+                      </div>
+                    </Button>
                   ))}
                 </div>
                 <div className='flex w-full'>
                       <div className='flex justify-between mt-10 w-full'>
-                        <Input id="custom-deadline" value={deadline} onChange={e => setDeadline(e.target.value)} className='after:[] w-full h-32 mr-8 text-left pl-8 placeholder:text-white/40' autoFocus={true} type="number" placeholder="Custom deadline"/>
-                        <Button disabled={deadline === ''} onClick={() => setIsOpenAssetSettings(false)} className='w-[72px] h-32' variant='outline'><FiCheck width={24} height={24}/></Button>  
+                        <Input id="custom-deadline" value={deadline} onChange={e => setDeadline(e.target.value)} className='after:[] w-full h-32 mr-8 text-left h5 pl-6 placeholder:text-white/60' autoFocus={true} type="number" placeholder="Custom deadline (mins)"/>
+                        <Button disabled={deadline === '' && deadline !== undefined} onClick={() => setIsOpenAssetSettings(false)} className='w-[72px] h-32' variant='outline'><FiCheck width={24} height={24}/></Button>  
                       </div>   
                 </div>
                 </>

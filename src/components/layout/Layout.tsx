@@ -84,7 +84,6 @@ export const Layout: FC<LayoutProps> = ({
         }
       </div>
       {children}
-      <Footer/>
     </>
   );
 }

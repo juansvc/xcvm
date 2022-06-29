@@ -71,7 +71,7 @@ export const Button: FC<ButtonProps> = (
             'active:border-gradient-r-gradient-light-transparent',
             'disabled:opacity-20 disabled:border-gradient-r-gradient-soft-transparent',
             active && [
-              'border-gradient-r-gradient-light-transparent'
+              'gradient-border-2 border-gradient-r-gradient-light-transparent'
             ],
           ],
           variant === 'text' && [

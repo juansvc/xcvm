@@ -11,7 +11,7 @@ export const NETWORKS: { [key in NetworkId]: Network } = {
   },
   ethereum: {
     id: 'ethereum',
-    icon: '/icons/tokens/ethereum.svg',
+    icon: '/icons/tokens/ethereum-main.svg',
     symbol: 'ETH',
     name: "Ethereum",
   },

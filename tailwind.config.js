@@ -65,5 +65,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require('tailwindcss-border-gradient-radius'), require('@tailwindcss/forms')],
+  plugins: [require('tailwindcss-border-gradient-radius')],
 };

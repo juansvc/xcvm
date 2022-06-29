@@ -313,7 +313,7 @@ export default function Compose() {
             <Button 
               key={id} 
               className={`w-[424px] ${id === 2 && 'm-6'} inline-flex justify-start pl-8`} 
-              variant='outline' 
+              variant='soft' 
               icon={<Image src={getNetwork(label).icon} width={32} height={32} alt=''/>}
               onClick={() => { setIsOpenNetwork(false); selected === 'from' ? setSelectedNetworkFrom(label) :  selected === 'into' ? setSelectedNetworkInto(label) : undefined}}
             >
@@ -332,7 +332,7 @@ export default function Compose() {
             <Button 
               key={id} 
               className={`w-[424px] h-24 ${(id === 2) && 'mx-6 my-4'} justify-between relative inline-flex pl-8`} 
-              variant='outline' 
+              variant='soft' 
               icon={<div className='pt-1'><Image src={getToken(label).icon} width={32} height={32} alt='' /></div>}
               onClick={() => { setIsOpenAsset(false); selected === 'from' ? setSelectedAssetFrom(label) :  selected === 'into' ? setSelectedAssetInto(label) : undefined}}
             >

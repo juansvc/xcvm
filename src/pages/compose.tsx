@@ -1,4 +1,4 @@
-import { Tab } from '@headlessui/react';
+import { Switch, Tab } from '@headlessui/react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { AiTwotoneSetting } from "react-icons/ai";
@@ -53,6 +53,7 @@ export default function Compose() {
   const [selected, setSelected] = useState('')
   const [deadline, setDeadline] = useState('5 mins')
   const [slippage, setSlippage] = useState('0.5%')
+  const [enabled, setEnabled] = useState(false)
   const [selectedAMM, setSelectedAMM] = useState<valueType>({
     1: '',
     2: '',
@@ -158,8 +159,8 @@ export default function Compose() {
                       </div>
                     : undefined
                   }
-                  <div className='text-white/40 text-center mt-8'>
-                    Composed route<GoLinkExternal className='inline-flex ml-2 mb-[3px]'/><RiFileCopyLine className='inline-flex ml-2 mb-[3px]'/>
+                  <div className='text-white/20 text-center mt-8'>
+                    Composed route<GoLinkExternal className='inline-flex ml-2 mb-[3px]'/><RiFileCopyLine className='fill-white/20 inline-flex ml-2 mb-[3px]'/>
                   </div>
                 </div>
               : undefined
@@ -170,7 +171,7 @@ export default function Compose() {
                     )}>
               <div>
                 <div className='flex text-left'>
-                  <h3 className='font-normal'>
+                  <h3 className='font-normal -mt-2'>
                     COMPOSE
                   </h3>
                 </div>
@@ -209,14 +210,14 @@ export default function Compose() {
                         <h5 className='text-white/60 mb-8'>Into</h5>
                       </div>
                       <div className='flex -mt-3'>
-                        <Button disabled={disabled} className='w-14 h-14 p-0 text-white/60 hover:text-white' variant='secondary' onClick={() => {setIsOpenAssetSettings(true)}}><AiTwotoneSetting width={24} height={24}/></Button>     
+                        <Button disabled={disabled} className='w-14 h-14 p-0 text-white/60 hover:text-white' variant='secondary' onClick={() => {setIsOpenTransactionSettings(true)}}><AiTwotoneSetting width={24} height={24}/></Button>     
                       </div>
                     </div>
                     <div className='flex justify-between'>
                       <InputAsset disabled={disabled} assetIcon={selectedAssetInto !== '' ? selectedAssetInto : undefined} id='input-asset' className={`relative ${enableOtherAsset ? 'w-[45.25%]' : 'w-11/12'}`}>
                       <div className={`${enableOtherAsset ? 'w-[275px] flex justify-end' : ''}`}>
                           {(selectedNetworkInto !== '' && selectedAssetInto !== '') &&
-                            <Button className='h-10 px-4 mx-2 absolute top-0 right-0 text-white/60 hover:text-white' variant='text' onClick={() => (setIsOpenTransactionSettings(true))}><AiTwotoneSetting width={18} height={18}/></Button>
+                            <Button className='h-10 px-4 mx-2 absolute top-0 right-0 text-white/60 hover:text-white' variant='text' onClick={() => (setIsOpenAssetSettings(true))}><AiTwotoneSetting width={18} height={18}/></Button>
                           }
                           {selectedNetworkInto === '' ?
                             <Button disabled={disabled} className='h-10 px-4 mx-2' variant='outline' onClick={() => {setIsOpenNetwork(true);setSelected('into')}}>Select network</Button>
@@ -260,7 +261,7 @@ export default function Compose() {
 :undefined
 
                       }
-                      <Button onClick={() => setEnableOtherAsset(true)} disabled={disabled} className='w-[72px] h-36' variant='outline'><FiPlus className='w-[24px] h-[24px]' width={24} height={24}/></Button>     
+                      <Button onClick={() => setEnableOtherAsset(true)} disabled={disabled} className='w-[72px] h-36 ' variant='outline'><FiPlus className='w-[24px] h-[24px]' width={24} height={24}/></Button>     
                     </div>
                   </div>
                 </div>
@@ -385,7 +386,7 @@ export default function Compose() {
                       </>
                     : idx === 1 ?
                       <div className='flex justify-between'>
-                        <Input id="custom-address" value={valueAddress[1]} onChange={e => setValueAddress({1: e.target.value})} className='w-full h-32 mr-8 text-left h5 pl-6 placeholder:text-white/60' autoFocus={true} type="text" placeholder="ERC-20 address"/>
+                        <Input id="custom-address" value={valueAddress[1]} onChange={e => setValueAddress({1: e.target.value})} className='w-full h-32 mr-8 text-left h5 pl-6 placeholder:text-white/60 focus:gradient-border-2 focus:border-gradient-r-gradient-light-transparent' autoFocus={true} type="text" placeholder="ERC-20 address"/>
                         <Button disabled={valueAddress[1] === '' && valueAddress[1] !== undefined} onClick={() => setIsOpenAssetSettings(false)} className='w-[72px] h-32' variant='outline'><FiCheck width={24} height={24}/></Button>  
                       </div>   
                     :
@@ -410,10 +411,29 @@ export default function Compose() {
                 </div>
                 <div className='flex w-full'>
                       <div className='flex justify-between mt-10 w-full'>
-                        <Input id="custom-slippage" value={slippage} onChange={e => setSlippage(e.target.value)} className='after:[] w-full h-32 mr-8 text-left h5 pl-6 placeholder:text-white/60' autoFocus={true} type="number" placeholder="Custom slippage"/>
+                        <Input id="custom-slippage" value={slippage} onChange={e => setSlippage(e.target.value)} className='after:[] w-full h-32 mr-8 text-left h5 pl-6 placeholder:text-white/60 focus:gradient-border-2 focus:border-gradient-r-gradient-light-transparent' autoFocus={true} type="number" placeholder="Custom slippage"/>
                         <Button disabled={slippage === '' && slippage !== undefined} onClick={() => setIsOpenAssetSettings(false)} className='w-[72px] h-32' variant='outline'><FiCheck width={24} height={24}/></Button>  
                       </div>   
                 </div>
+
+                <div className='flex mt-12 w-full justify-center items-center'>
+                        <div className=' flex items-center w-5/12 '>
+                          <Switch
+                            checked={enabled}
+                            onChange={setEnabled}
+                            className={`${enabled ? 'bg-white/20' : 'bg-white/20'}
+                              relative inline-flex h-[38px] w-[74px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+                          >
+                            <span
+                              aria-hidden="true"
+                              className={`${enabled ? 'translate-x-9' : 'translate-x-0'}
+                                pointer-events-none inline-block h-[34px] w-[34px] transform rounded-full bg-white/60 shadow-lg ring-0 transition duration-200 ease-in-out`}
+                            />
+                          </Switch>
+
+                          <span className='text-white/60 ml-8'>Swap a portion of my tokens to pay for gas fees</span>
+                        </div>
+                      </div>
                 </>
                   }
                 </Tab.Panel>
@@ -449,7 +469,7 @@ export default function Compose() {
                 </div>
                 <div className='flex w-full'>
                       <div className='flex justify-between mt-10 w-full'>
-                        <Input id="custom-deadline" value={deadline} onChange={e => setDeadline(e.target.value)} className='after:[] w-full h-32 mr-8 text-left h5 pl-6 placeholder:text-white/60' autoFocus={true} type="number" placeholder="Custom deadline (mins)"/>
+                        <Input id="custom-deadline" value={deadline} onChange={e => setDeadline(e.target.value)} className='after:[] w-full h-32 mr-8 text-left h5 pl-6 placeholder:text-white/60 focus:gradient-border-2 focus:border-gradient-r-gradient-light-transparent' autoFocus={true} type="number" placeholder="Custom deadline (mins)"/>
                         <Button disabled={deadline === '' && deadline !== undefined} onClick={() => setIsOpenAssetSettings(false)} className='w-[72px] h-32' variant='outline'><FiCheck width={24} height={24}/></Button>  
                       </div>   
                 </div>

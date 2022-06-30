@@ -22,14 +22,14 @@ export const Disclosure: FC<DisclosureProps> = ({
           <>
             <DisclosureHeadless.Button className={clsxm(
                   'flex w-full justify-between  bg-white/5 h-16 px-6 py-5 text-white/60 p',
-                  open ? 'rounded-b-none rounded-t-3xl' :
+                  open ? 'rounded-b-none rounded-t-3xl text-white bg-white/40' :
                   'rounded-3xl'
                 )}>
               <span>{title}</span>
               <FiChevronDown
                 className={clsxm(
-                  'h-6 w-6 text-white',
-                  open ? 'rotate-180 transform' : ''
+                  'h-6 w-6 text-white/60',
+                  open ? 'rotate-180 transform text-white' : ''
                 )}
               />
             </DisclosureHeadless.Button>

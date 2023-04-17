@@ -12,17 +12,12 @@ export default function Footer() {
       <div className='w-40'>
         <ul className='flex items-center justify-between space-x-4'>
           <li>
-            <Link href='https://twitter.com/ComposableFin' passHref>
+            <Link href='https://twitter.com/juansvivanco' passHref>
               <a target="_blank" className='text-white/60 hover:text-white' rel="noopener noreferrer"><FaTwitter height={24} width={24} /></a>
             </Link>
           </li>
           <li>
-            <Link href='https://discord.gg/composable/' passHref>
-              <a target="_blank" className='text-white/60 hover:text-white' rel="noopener noreferrer"><FaDiscord height={24} width={24} /></a>
-            </Link>
-          </li>
-          <li>
-            <Link href='https://github.com/ComposableFi/' passHref>
+            <Link href='https://github.com/juansvc/' passHref>
               <a target="_blank" className='text-white/60 hover:text-white' rel="noopener noreferrer"><FaGithub height={24} width={24} /></a>
             </Link>
           </li>
